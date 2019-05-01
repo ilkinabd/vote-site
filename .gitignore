@@ -18,5 +18,6 @@ web/front/package.json
 web/front/package-lock.json
 web/front/gulpfile.js
 web/music/
+web/.htaccess
 composer.phar
 index.php
