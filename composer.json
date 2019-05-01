@@ -1,0 +1,23 @@
+{
+    "require": {
+        "silex/silex": "2.*",
+        "twig/twig": "^1.38",
+        "symfony/twig-bridge": "^3.4",
+        "doctrine/dbal": "^2.5",
+        "symfony/serializer": "^3.4",
+        "symfony/property-access": "^3.4",
+        "symfony/var-dumper": "^3.4",
+        "symfony/security": "^3.4",
+        "amstaffix/silex-captcha": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Classes\\": "Classes"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "5.6"
+        }
+    }
+}

@@ -1,0 +1,123 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Голосование</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,700i,800" rel="stylesheet">
+    <link rel="stylesheet" href="{{ app.asset_path }}/css/style.css"/>
+    <script>
+        let style = document.createElement('style');
+        style.innerHTML =
+            'body{'+
+                'background-image: url("{{ config.body.bodyBgBackImg }}");'+
+                'background-size: cover'+
+            '}'+
+            '.button-vote {' +
+            'background-color: {{ config.singer.buttonBgColorInactive }};' +
+            '}' +
+            '.button-vote span:nth-child(2){' +
+            'color: {{ config.singer.buttonTextColorInactive }};' +
+            '}' +
+            '.button-back {' +
+            'background-color : {{ config.footer.backToSiteBtnBgColorInactive }};' +
+            'color : {{ config.footer.backToSiteBtnColorInactive }};' +
+            '}' +
+            '.footer__back:hover .button-back {' +
+            'background-color: {{ config.footer.backToSiteBtnBgColorActive }};' +
+            'color: {{ config.footer.backToSiteBtnColorActive }};' +
+            '}' +
+            '.singer__vote:not(.active):not(.inactive):hover .button-vote,' +
+            '.singer__vote:not(.active):not(.inactive):focus .button-vote{' +
+            'background-color: {{ config.singer.buttonBgColorActive }};' +
+            '}' +
+            '.singer__vote:not(.active):not(.inactive):hover .button-vote span,' +
+            '.singer__vote:not(.active):not(.inactive):focus .button-vote span {' +
+            'color: {{ config.singer.buttonTextColorActive }};' +
+            '}'
+        document.getElementsByTagName('head')[0].appendChild(style);
+    </script>
+</head>
+<body>
+<div class="header">
+    <div class="partner">
+        <a target="_blank" href="{{ config.partner.partner1link }}" class="partner__item"><img
+                    src="{{ config.partner.partner1img }}" alt=""></a>
+        <a target="_blank" href="{{ config.partner.partner2link }}" class="partner__item"><img
+                    src="{{ config.partner.partner2img }}" alt=""></a>
+        <a target="_blank" href="{{ config.partner.partner3link }}" class="partner__item"><img
+                    src="{{ config.partner.partner3img }}" alt=""></a>
+    </div>
+    <div class="title">
+        <div class="title__left"><img src="{{ config.logo.logoLeftImg }}" alt=""></div>
+        <div class="title__label">
+            <span class="before" style="background-image: url('{{ config.logo.logoBgImg }}')"></span>
+            <span class="title__bg"></span>
+            <img src="{{ config.logo.logoImg }}" alt="">
+        </div>
+        <div class="title__right"><img src="{{ config.logo.logoRightImg }}" alt=""></div>
+    </div>
+</div>
+<div class="result">
+    <h1 style="text-align: center;color: #fff">Голосование окончено</h1>
+</div>
+<div class="singer">
+    {% for singer in singers %}
+
+        <div class="singer__item">
+            <div class="singer__pic">
+                <span style="background-image: url('{{ config.singer.portraitBgImg }}')" class="before"></span>
+                <p style="border-color: {{ config.singer.portraitBorderColor }}" class="singer__circle">
+                    <img src="{{ singer.img }}" alt="">
+                </p>
+                <span style="background-image: url('{{ config.singer.portraitElementImg }}')" class="after"></span>
+            </div>
+            <div class="singer__info">
+                <p class="singer__city">{{ singer.city }}</p>
+                <p class="singer__name">{{ singer.name }} {{ singer.surname }}</p>
+                <p class="singer__age">{{ singer.age }} лет</p>
+                <div class="singer__music">
+                    <a href="" data-music="{{ app.music_path }}/{{ singer.music_link }}" class="singer__play"></a>
+                    <span class="singer__song">{{ singer.music_name }}</span>
+                </div>
+            </div>
+            <div class="singer__action">
+                <p class="singer__count">{{ singer.vote_count }} %</p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<div class="footer">
+    <p class="footer__back">
+        <span style="background-image: url('{{ config.footer.backToSiteBtnBgInactiveImg }}')" class="before"></span>
+        <a href="https://www.jesc-russia.com/" class="button button-back">{{ config.footer.backToSiteBtnText }}</a>
+        <span style="background-image: url('{{ config.footer.backToSiteBtnBgActiveImg }}')" class="after"></span>
+    </p>
+    <p class="footer__info">
+        Результаты голосования смотрите на сайте <a href="https://www.jesc-russia.com/">jesc-russia.com</a>
+    </p>
+</div>
+<script src="{{ app.asset_path }}/js/foundation/jquery.min.js"></script>
+<script src="{{ app.asset_path }}/js/foundation/what-input.min.js"></script>
+<script src="{{ app.asset_path }}/js/foundation/foundation.min.js"></script>
+{#<script src="{{ app.asset_path }}/js/app.js"></script>#}
+<script>
+    $(document).foundation();
+    let timerId = setInterval(function () {
+        $.ajax({
+            url: '/poll/status',
+            processData: false,
+            contentType: false,
+            type: 'GET',
+            success: (data) => {
+                console.log(`Poll status is ${data.status}`);
+                if (data.status === 1) {
+                    location.href = '/'
+                }
+            }
+        });
+    }, 30000);
+</script>
+</body>
+</html>

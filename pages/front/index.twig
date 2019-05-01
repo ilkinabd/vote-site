@@ -1,0 +1,179 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Голосование</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,700i,800" rel="stylesheet">
+    <link rel="stylesheet" href="{{ app.asset_path }}/css/style.css"/>
+    <script>
+        let style = document.createElement('style');
+        style.innerHTML =
+            'body{' +
+            'background-image: url("{{ config.body.bodyBgBackImg }}")' +
+            '}' +
+            '.parallax{' +
+            'background-image: url("{{ config.body.bodyBgFrontImg }}")' +
+            '}' +
+            '.button-vote {' +
+            'background-color: {{ config.singer.buttonBgColorInactive }};' +
+            '}' +
+            '.button-vote span:nth-child(2){' +
+            'color: {{ config.singer.buttonTextColorInactive }};' +
+            '}' +
+            '.button-back {' +
+            'background-color : {{ config.footer.backToSiteBtnBgColorInactive }};' +
+            'color : {{ config.footer.backToSiteBtnColorInactive }};' +
+            '}' +
+            '.footer__back:hover .button-back {' +
+            'background-color: {{ config.footer.backToSiteBtnBgColorActive }};' +
+            'color: {{ config.footer.backToSiteBtnColorActive }};' +
+            '}' +
+            '.singer__vote:not(.active):not(.inactive):hover .button-vote,' +
+            '.singer__vote:not(.active):not(.inactive):focus .button-vote{' +
+            'background-color: {{ config.singer.buttonBgColorActive }};' +
+            '}' +
+            '.singer__vote:not(.active):not(.inactive):hover .button-vote span,' +
+            '.singer__vote:not(.active):not(.inactive):focus .button-vote span {' +
+            'color: {{ config.singer.buttonTextColorActive }};' +
+            '}' +
+            '.button-exit{' +
+            'color:{{ config.social.exitButtonColorInactive }}' +
+            '}' +
+            '.button-exit:hover{' +
+            'color:{{ config.social.exitButtonColorActive }}' +
+            '}'
+        document.getElementsByTagName('head')[0].appendChild(style);
+    </script>
+</head>
+<body>
+<div class="parallax-container">
+    <div class="parallax"></div>
+</div>
+<div class="bgcover"></div>
+<div class="header">
+    <div class="partner">
+        {% for partner in partners %}
+            <a target="_blank" href="{{ partner.link }}" class="partner__item"><img
+                        src="{{ partner.img }}" alt=""></a>
+        {% endfor %}
+    </div>
+    <div class="title">
+        <div class="title__left"><img src="{{ config.logo.logoLeftImg }}" alt=""></div>
+        <div class="title__label">
+            <span class="before"
+                  style="background-image: url('{{ config.logo.logoBgImg }}');visibility:
+                          {% if config.logo.logoHidden == 'true'%}hidden
+                            {% else %}visible{% endif %};"></span>
+            <span class="title__bg"></span>
+            <img src="{{ config.logo.logoImg }}" alt="">
+        </div>
+        <div class="title__right"><img src="{{ config.logo.logoRightImg }}" alt=""></div>
+    </div>
+</div>
+<div class="authorize">
+    <p class="authorize__title">
+        {% if user == false %}{{ config.social.authTextBefore }}{% else %}{{ config.social.authTextAfter }}{% endif %}
+    </p>
+    <div class="social">
+        {% if user == false %}
+            <a data-vk href="{{ url('oauth', {name: 'vk'}) }}" class="social__item"><img
+                        src="{{ config.social.authVkImg }}" alt=""></a>
+            <a data-ok href="{{ url('oauth', {name: 'ok'}) }}" class="social__item"><img
+                        src="{{ config.social.authOkImg }}" alt=""></a>
+            <a data-fb href="{{ url('oauth', {name: 'mr'}) }}" class="social__item"><img
+                        src="{{ config.social.authMrImg }}" alt=""></a>
+            <a data-gp href="{{ url('oauth', {name: 'gp'}) }}" class="social__item"><img
+                        src="{{ config.social.authGmImg }}" alt=""></a>
+        {% else %}
+            <div style="background-color: {{ config.social.authBgColor }}" class="user">
+                <div class="user__circle"><img src="{{ user.avatar }}" alt=""></div>
+                <p class="user__name">{{ user.firstName }}<br>{{ user.lastName }}</p>
+                <div class="user__social"><img
+                            src="{{ config.social.iconVkImg }}"
+                            alt=""></div>
+                <p class="user__exit">
+                    <a href="/logout" style="background-color: {{ config.social.exitButtonBgColor }}"
+                       class="button button-exit">{{ config.social.exitButtonText }}</a>
+                </p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+<div class="singer">
+    {% for singer in singers %}
+
+        <div class="singer__item">
+            <div class="singer__pic">
+                <span style="background-image: url('{{ config.singer.portraitBgImg }}')" class="before"></span>
+                <p style="border-color: {{ config.singer.portraitBorderColor }}" class="singer__circle">
+                    <img src="{{ singer.img }}" alt="">
+                </p>
+                <span style="background-image: url('{{ config.singer.portraitElementImg }}')" class="after"></span>
+            </div>
+            <div class="singer__info">
+                <p class="singer__city">{{ singer.city }}</p>
+                <p class="singer__name">{{ singer.name }} {{ singer.surname }}</p>
+                <p class="singer__age">{{ singer.age }} лет</p>
+                <div class="singer__music">
+                    <a href="" data-music="{{ app.music_path }}/{{ singer.music_link }}" class="singer__play"></a>
+                    <span class="singer__song">{{ singer.music_name }}</span>
+                </div>
+            </div>
+            <div class="singer__action">
+                <p class="singer__count">{{ singer.vote_count }} %</p>
+                <p class="singer__vote{% if user != false and user.voted == 1 and user.singerId == singer.id %}
+                active{% elseif user != false and user.voted == 1 and user.singerId != singer.id %}
+                inactive{% endif %}">
+                    {#                   data-open="captcha-modal">#}
+                    <span style="background-image: url('{{ config.singer.buttonBgInactiveImg }}')"
+                          class="before"></span>
+                    <a data-vote data-singer-id="{{ singer.id }}" class="button button-vote">
+                        <span class="singer__check"></span>
+                        {% if user != false and user.singerId == singer.id %}
+                            <span style="color: {{ config.singer.buttonTextColorActive }}">{{ config.singer.buttonTextActive }}</span>
+                        {% else %}
+                            <span style="color: {{ config.singer.buttonTextColorInactive }}">{{ config.singer.buttonTextInactive }}</span>
+                        {% endif %}
+                    </a>
+                    <span style="background-image: url('{{ config.singer.buttonBgActiveImg }}')" class="after"></span>
+                </p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<div class="footer">
+    <p class="footer__back">
+        <span style="background-image: url('{{ config.footer.backToSiteBtnBgInactiveImg }}')" class="before"></span>
+        <a href="https://www.jesc-russia.com/" class="button button-back">{{ config.footer.backToSiteBtnText }}</a>
+        <span style="background-image: url('{{ config.footer.backToSiteBtnBgActiveImg }}')" class="after"></span>
+    </p>
+    <p class="footer__info">
+        Результаты голосования смотрите на сайте <a href="https://www.jesc-russia.com/">jesc-russia.com</a>
+    </p>
+</div>
+<script src="{{ app.asset_path }}/js/foundation/jquery.min.js"></script>
+<script src="{{ app.asset_path }}/js/foundation/what-input.min.js"></script>
+<script src="{{ app.asset_path }}/js/foundation/foundation.min.js"></script>
+<script src="{{ app.asset_path }}/js/app.js"></script>
+<script>
+    $(document).foundation();
+    let timerId = setInterval(function () {
+        $.ajax({
+            url: '/poll/status',
+            processData: false,
+            contentType: false,
+            type: 'GET',
+            success: (data) => {
+                console.log(`Poll status is ${data.status}`);
+                if (data.status === 0) {
+                    location.href = '/result'
+                }
+            }
+        });
+    }, 30000);
+
+</script>
+</body>
+</html>

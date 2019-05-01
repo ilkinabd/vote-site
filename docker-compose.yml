@@ -1,0 +1,35 @@
+version: '3'
+services:
+  app:
+    container_name: vote-site
+    build: .
+    volumes:
+      - './:/usr/src/vote'
+      - /usr/src/vote/web/front/node_modules
+      - /usr/src/vote/web/front/bower_components
+      - /usr/src/vote/web/front/scss
+      - /usr/src/vote/web/back/node_modules
+      - /usr/src/vote/web/back/bower_components
+      - /usr/src/vote/web/back/scss
+      #- /usr/src/vote/web/assets/gulpfile.js
+      #- /usr/src/vote/web/assets/package.json
+      - /usr/src/vote/vendor
+    command: ["php", "-S", "0.0.0.0:8000", "-t", "web", "web/index.php"]
+    ports:
+      - '8000:8000'
+    links:
+      - mysql
+  mysql:
+    container_name: vote-db
+    volumes:
+      - './sql:/sql'
+      #- './init.sql:/docker-entrypoint-initdb.d/init.sql'
+    image: mysql:5.5
+    environment:
+      MYSQL_ROOT_PASSWORD: ilkinabd1
+      MYSQL_DATABASE: vote
+      MYSQL_USER: vote
+      MYSQL_PASSWORD: ilkinabd1
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    ports:
+      - '3306:3306'

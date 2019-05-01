@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin index page{% endblock %}
+
+{% block body %}
+    <login-form :action="{{ path('admin_login_check') | json_encode | e('html_attr') }}"
+                :error="{{ error | json_encode | e('html_attr') }}"
+                :last-username="{{ last_username | json_encode | e('html_attr') }}">
+    </login-form>
+{% endblock %}
