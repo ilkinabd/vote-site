@@ -17,32 +17,31 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Twig\Environment;
+use Lokhman\Silex\Provider\ConfigServiceProvider;
 
 $app = new Silex\Application();
-ini_set('memory_limit', '-1');
-$app['debug'] = true;
-$app['domain'] = 'vote.jesc-russia.com';
-$app['port'] = '8000';
-$app['asset_path'] = 'http://' . $app['domain'] . ':' . $app['port'] . '/front';
-$app['vue_path'] = 'http://' . $app['domain'] . ':' . $app['port'] . '/back';
-$app['music_path'] = 'http://' . $app['domain'] . ':' . $app['port'] . '/music';
 
+ini_set('memory_limit', '-1');
 date_default_timezone_set('Europe/Moscow');
+
 define('HAS_NOT_PERMISSION_ERROR', 1);
 define('ALREADY_VOTED_ERROR', 2);
 define('POLL_STOPPED_ERROR', 3);
 
+$app['debug'] = true;
+
+// Config
+$app->register(new ConfigServiceProvider(), [
+    'config.dir' => __DIR__ . '/../config',
+]);
+
+$app['asset_path'] = $app['config']['protocol'] . '://' . $app['config']['domain'] . ':' . $app['config']['port'] . '/front';
+$app['vue_path'] = $app['config']['protocol'] . '://' . $app['config']['domain'] . ':' . $app['config']['port'] . '/back';
+$app['music_path'] = $app['config']['protocol'] . '://' . $app['config']['domain'] . ':' . $app['config']['port'] . '/music';
+
 // Doctrine
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
-    'db.options' => array(
-        'driver' => 'pdo_mysql',
-        'host' => 'mysql',
-        //'port'     => '3306',
-        'user' => 'vote',
-        'password' => 'ilkinabd1',
-        'dbname' => 'vote',
-        'charset' => 'utf8mb4',
-    ),
+    'db.options' => $app['config']['database'],
 ));
 
 // Twig
@@ -60,7 +59,7 @@ $app->register(new OauthServiceProvider(), [
             'url' => 'http://oauth.vk.com/authorize',
             'clientId' => '6474619',
             'clientSecret' => 'nkjtcKB9h0SaudVH4KFd',
-            'redirectUri' => 'http://' . $app['domain'] . ':' . $app['port'],
+            'redirectUri' => $app['config']['protocol'].'://' . $app['config']['domain'] . ':' . $app['config']['port'],
             'responseType' => 'code',
         ],
         'ok' => [
@@ -68,21 +67,21 @@ $app->register(new OauthServiceProvider(), [
             'clientId' => '1266500608',
             'clientSecret' => '515319EA34270B415395F34A',
             'grantType' => 'authorization_code',
-            'redirectUri' => 'http://' . $app['domain'] . ':' . $app['port'],
+            'redirectUri' => $app['config']['protocol'].'://' . $app['config']['domain'] . ':' . $app['config']['port'],
             'responseType' => 'code',
         ],
         'mr' => [
             'url' => 'https://connect.mail.ru/oauth/authorize',
             'clientId' => '760118',
             'clientSecret' => 'nkjtcKB9h0SaudVH4KFd',
-            'redirectUri' => 'http://' . $app['domain'] . ':' . $app['port'],
+            'redirectUri' => $app['config']['protocol'].'://' . $app['config']['domain'] . ':' . $app['config']['port'],
             'responseType' => 'code',
         ],
         'gp' => [
             'url' => 'https://accounts.google.com/o/oauth2/auth',
             'clientId' => '1014673555154-iguhfljk14clja6j8acjftg144t0i4es.apps.googleusercontent.com',
             'clientSecret' => 'nkjtcKB9h0SaudVH4KFd',
-            'redirectUri' => 'http://' . $app['domain'] . ':' . $app['port'],
+            'redirectUri' => $app['config']['protocol'].'://' . $app['config']['domain'] . ':' . $app['config']['port'],
             'responseType' => 'code',
             'scope' => 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
         ]
@@ -767,7 +766,6 @@ $app->post('/ajax/poll/update', function (Request $request) use ($app) {
 
 })->bind('ajax_update_poll');
 
-
 // Login page
 $app->get('/login', function (Request $request) use ($app) {
 
@@ -982,18 +980,3 @@ $app->get('/oauth/{name}', function (Request $request, $name) use ($app) {
 })->bind('oauth');
 
 $app->run();
-
-//// Dumper
-//$app->register(new Silex\Provider\VarDumperServiceProvider());
-//$captcha = new MyCaptchaServiceProvider();
-// Captcha
-//$app->register($captcha, [
-//    'captcha.width' => '200',
-//    'captcha.height' => '100'
-//]);
-// Generate captcha
-//$app->mount('/generate', $captcha);
-//$app['var_dumper.cli_dumper'] = function ($app) {
-//    return new HtmlDumper($app['var_dumper.dump_destination'],
-//        $app['charset']);
-//};
