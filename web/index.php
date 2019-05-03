@@ -35,9 +35,11 @@ $app->register(new ConfigServiceProvider(), [
     'config.dir' => __DIR__ . '/../config',
 ]);
 
-$app['asset_path'] = $app['config']['protocol'] . '://' . $app['config']['domain'] . ':' . $app['config']['port'] . '/front';
-$app['vue_path'] = $app['config']['protocol'] . '://' . $app['config']['domain'] . ':' . $app['config']['port'] . '/back';
-$app['music_path'] = $app['config']['protocol'] . '://' . $app['config']['domain'] . ':' . $app['config']['port'] . '/music';
+$app['site_url'] = $app['config']['protocol'] . '://' . $app['config']['domain'] . ':' . $app['config']['port'];
+$app['redirect_uri'] = $app['site_url'];
+$app['asset_path'] = $app['site_url'] . '/front';
+$app['vue_path'] = $app['site_url'] . '/back';
+$app['music_path'] = $app['site_url'] . '/music';
 
 // Doctrine
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
@@ -54,38 +56,8 @@ $app->register(new SerializerServiceProvider(), []);
 
 // Oauth
 $app->register(new OauthServiceProvider(), [
-    'oauth.config.socials' => [
-        'vk' => [
-            'url' => 'http://oauth.vk.com/authorize',
-            'clientId' => '6474619',
-            'clientSecret' => 'nkjtcKB9h0SaudVH4KFd',
-            'redirectUri' => $app['config']['protocol'].'://' . $app['config']['domain'] . ':' . $app['config']['port'],
-            'responseType' => 'code',
-        ],
-        'ok' => [
-            'url' => 'http://www.odnoklassniki.ru/oauth/authorize',
-            'clientId' => '1266500608',
-            'clientSecret' => '515319EA34270B415395F34A',
-            'grantType' => 'authorization_code',
-            'redirectUri' => $app['config']['protocol'].'://' . $app['config']['domain'] . ':' . $app['config']['port'],
-            'responseType' => 'code',
-        ],
-        'mr' => [
-            'url' => 'https://connect.mail.ru/oauth/authorize',
-            'clientId' => '760118',
-            'clientSecret' => 'nkjtcKB9h0SaudVH4KFd',
-            'redirectUri' => $app['config']['protocol'].'://' . $app['config']['domain'] . ':' . $app['config']['port'],
-            'responseType' => 'code',
-        ],
-        'gp' => [
-            'url' => 'https://accounts.google.com/o/oauth2/auth',
-            'clientId' => '1014673555154-iguhfljk14clja6j8acjftg144t0i4es.apps.googleusercontent.com',
-            'clientSecret' => 'nkjtcKB9h0SaudVH4KFd',
-            'redirectUri' => $app['config']['protocol'].'://' . $app['config']['domain'] . ':' . $app['config']['port'],
-            'responseType' => 'code',
-            'scope' => 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile'
-        ]
-    ]
+    'oauth.config.redirect_uri' => $app['redirect_uri'],
+    'oauth.config.socials' => $app['config']['socials']
 ]);
 
 // Security

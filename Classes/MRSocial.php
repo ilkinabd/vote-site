@@ -22,4 +22,78 @@ class MRSocial extends Social
         return $this->url . '?' . urldecode(http_build_query($params));
     }
 
+    public function authorize($code)
+    {
+        parent::authorize($code);
+
+        $this->setCode($code);
+
+        // Generate token post fields
+        $tokenPostFields = $this->generateTokenPostFields();
+        $url = 'https://connect.mail.ru/oauth/token';
+
+        // Retrieve token from oauth server
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $tokenPostFields); // передаём параметры
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+        $result = curl_exec($curl);
+        curl_close($curl);
+        $token = json_decode($result, true);
+
+        // Get user info using token
+        return $this->getUserInfo($token);
+    }
+
+    public function generateTokenPostFields()
+    {
+        parent::generateTokenPostFields();
+        $tokenParams = [
+            'client_id' => $this->clientId,
+            'client_secret' => $this->clientSecret,
+            'code' => $this->code,
+            'redirect_uri' => $this->redirectUri,
+            'grant_type' => $this->grantType
+        ];
+        return urldecode(http_build_query($tokenParams));
+    }
+
+    public function getUserInfo($token)
+    {
+        parent::getUserInfo($token);
+        $userInfo = false;
+
+        if (isset($token['access_token'])) {
+            $params = [
+                'method' => 'users.getInfo',
+                'secure' => '1',
+                'app_id' => $this->clientId,
+                'session_key' => $token['access_token'],
+            ];
+
+            $sign = md5("app_id=" . $this->clientId .
+                "method=users.getInfosecure=1session_key={$token['access_token']}" .
+                $this->clientSecret);
+
+
+            $params['sig'] = $sign;
+
+            $res = json_decode(file_get_contents('http://www.appsmail.ru/platform/api' . '?' . urldecode(http_build_query($params))), true);
+
+            if (isset($res[0]['uid'])) {
+                $userInfo = $res[0];
+                $userInfo = [
+                    'external_id' => $userInfo['uid'],
+                    'first_name' => $userInfo['first_name'],
+                    'last_name' => $userInfo['last_name'],
+                    'avatar' => $userInfo['pic_128']
+                ];
+            }
+        }
+
+        return $userInfo;
+    }
+
 }

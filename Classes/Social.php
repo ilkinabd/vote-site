@@ -19,6 +19,7 @@ class Social implements ISocial
     protected $grantType;
     protected $scope;
     protected $clientSecret;
+    protected $publicKey;
 
     /**
      * @return mixed
@@ -184,10 +185,31 @@ class Social implements ISocial
 
     /**
      * @param $token
-     * @return array
+     * @return void
      */
     public function getUserInfo($token)
     {
         // TODO: Implement getUserInfo() method.
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPublicKey()
+    {
+        return $this->publicKey;
+    }
+
+    /**
+     * @param mixed $publicKey
+     */
+    public function setPublicKey($publicKey)
+    {
+        $this->publicKey = $publicKey;
+    }
+
+    public function generateTokenPostFields()
+    {
+        // TODO: Implement generateTokenPostFields() method.
     }
 }

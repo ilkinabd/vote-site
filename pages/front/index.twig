@@ -87,11 +87,21 @@
             <a data-gp href="{{ url('oauth', {name: 'gp'}) }}" class="social__item"><img
                         src="{{ config.social.authGmImg }}" alt=""></a>
         {% else %}
+            {% set socialIcon = config.social.iconVkImg %}
+            {% if user.authType == 'vk' %}
+                {% set socialIcon = config.social.iconVkImg %}
+            {% elseif user.authType == 'ok' %}
+                {% set socialIcon = config.social.iconOkImg %}
+            {% elseif user.authType == 'mr' %}
+                {% set socialIcon = config.social.iconMrImg %}
+            {% elseif user.authType == 'gp' %}
+                {% set socialIcon = config.social.iconGmImg %}
+            {% endif %}
             <div style="background-color: {{ config.social.authBgColor }}" class="user">
                 <div class="user__circle"><img src="{{ user.avatar }}" alt=""></div>
                 <p class="user__name">{{ user.firstName }}<br>{{ user.lastName }}</p>
                 <div class="user__social"><img
-                            src="{{ config.social.iconVkImg }}"
+                            src="{{ socialIcon }}"
                             alt=""></div>
                 <p class="user__exit">
                     <a href="/logout" style="background-color: {{ config.social.exitButtonBgColor }}"
@@ -106,11 +116,15 @@
 
         <div class="singer__item">
             <div class="singer__pic">
-                <span style="background-image: url('{{ config.singer.portraitBgImg }}')" class="before"></span>
+                <span style="background-image: url('{{ config.singer.portraitBgImg }}');visibility:
+                        {% if config.singer.portraitBgHidden == 'true'%}hidden
+                          {% else %}visible{% endif %};" class="before"></span>
                 <p style="border-color: {{ config.singer.portraitBorderColor }}" class="singer__circle">
                     <img src="{{ singer.img }}" alt="">
                 </p>
-                <span style="background-image: url('{{ config.singer.portraitElementImg }}')" class="after"></span>
+                <span style="background-image: url('{{ config.singer.portraitElementImg }}');visibility:
+                        {% if config.singer.portraitElementHidden == 'true'%}hidden
+                          {% else %}visible{% endif %};" class="after"></span>
             </div>
             <div class="singer__info">
                 <p class="singer__city">{{ singer.city }}</p>
@@ -127,7 +141,9 @@
                 active{% elseif user != false and user.voted == 1 and user.singerId != singer.id %}
                 inactive{% endif %}">
                     {#                   data-open="captcha-modal">#}
-                    <span style="background-image: url('{{ config.singer.buttonBgInactiveImg }}')"
+                    <span style="background-image: url('{{ config.singer.buttonBgInactiveImg }}');visibility:
+                            {% if config.singer.buttonBgInactiveHidden == 'true'%}hidden
+                              {% else %}visible{% endif %};"
                           class="before"></span>
                     <a data-vote data-singer-id="{{ singer.id }}" class="button button-vote">
                         <span class="singer__check"></span>
@@ -137,7 +153,9 @@
                             <span style="color: {{ config.singer.buttonTextColorInactive }}">{{ config.singer.buttonTextInactive }}</span>
                         {% endif %}
                     </a>
-                    <span style="background-image: url('{{ config.singer.buttonBgActiveImg }}')" class="after"></span>
+                    <span style="background-image: url('{{ config.singer.buttonBgActiveImg }}');visibility:
+                            {% if config.singer.buttonBgActiveHidden == 'true'%}hidden
+                              {% else %}visible{% endif %};" class="after"></span>
                 </p>
             </div>
         </div>
@@ -145,9 +163,13 @@
 </div>
 <div class="footer">
     <p class="footer__back">
-        <span style="background-image: url('{{ config.footer.backToSiteBtnBgInactiveImg }}')" class="before"></span>
+        <span style="background-image: url('{{ config.footer.backToSiteBtnBgInactiveImg }}');visibility:
+                {% if config.footer.backToSiteBtnBgInactiveHidden == 'true'%}hidden
+                  {% else %}visible{% endif %};" class="before"></span>
         <a href="https://www.jesc-russia.com/" class="button button-back">{{ config.footer.backToSiteBtnText }}</a>
-        <span style="background-image: url('{{ config.footer.backToSiteBtnBgActiveImg }}')" class="after"></span>
+        <span style="background-image: url('{{ config.footer.backToSiteBtnBgActiveImg }}');visibility:
+                {% if config.footer.backToSiteBtnBgActiveHidden == 'true'%}hidden
+                  {% else %}visible{% endif %};" class="after"></span>
     </p>
     <p class="footer__info">
         Результаты голосования смотрите на сайте <a href="https://www.jesc-russia.com/">jesc-russia.com</a>

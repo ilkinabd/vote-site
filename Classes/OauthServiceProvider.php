@@ -48,7 +48,9 @@ class OauthServiceProvider implements ServiceProviderInterface, BootableProvider
                     throw new UnprocessableEntityHttpException("$className does not exist");
                 };
                 $item['name'] = $key;
+                /** @var Social $social */
                 $social = $serializer->denormalize($item, $className);
+                $social->setRedirectUri($app['oauth.config.redirect_uri']);
                 $socials[$key] = $social;
 
             };

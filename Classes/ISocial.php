@@ -17,6 +17,8 @@ interface ISocial
 
     public function generateTokenUrl();
 
+    public function generateTokenPostFields();
+
     public function authorize($code);
 
     public function getUserInfo($token);

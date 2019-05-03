@@ -9,7 +9,9 @@
         "symfony/var-dumper": "^3.4",
         "symfony/security": "^3.4",
         "amstaffix/silex-captcha": "^1.0",
-        "lokhman/silex-config": "^2.0"
+        "lokhman/silex-config": "^2.0",
+      "ext-curl": "*",
+      "ext-json": "*"
     },
     "autoload": {
         "psr-4": {
