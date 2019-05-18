@@ -94,72 +94,7 @@ $app->register(new Silex\Provider\SecurityServiceProvider(), [
 $app->register(new Silex\Provider\SessionServiceProvider());
 
 $app->before(function (Request $request) use ($app) {
-
-    $get = $request->query->all();
-
-    /** @var SessionInterface $session */
-    $session = $app['session'];
     $app['twig']->addGlobal('current_page', $request->getRequestUri());
-    if (isset($get['code']) && $session->has('auth_social') && !$session->has('user')) {
-
-        /** @var \Classes\Oauth $oauth */
-        $oauth = $app['oauth'];
-
-        /** @var Connection $db */
-        $db = $app['db'];
-
-        /** @var Serializer $serializer */
-        $serializer = $app['serializer'];
-        $socialName = $session->get('auth_social');
-        $code = $get['code'];
-
-        $userInfo = $oauth->authorize($socialName, $code);
-
-        if ($userInfo) {
-
-            // Check if user exists in db
-            $id = $db->fetchColumn('SELECT id FROM ordinary_user WHERE external_id = ? and auth_type = ?', [
-                $userInfo['external_id'],
-                $socialName
-            ], 0);
-
-            // If not exists insert new user record
-            if (!$id) {
-                $db->insert('ordinary_user', [
-                    'external_id' => $userInfo['external_id'],
-                    'first_name' => $userInfo['first_name'],
-                    'last_name' => $userInfo['last_name'],
-                    'avatar' => $userInfo['avatar'],
-                    'auth_type' => $socialName,
-                    'last_login' => (new DateTime('NOW'))->format('Y-m-d H:i:s')
-                ]);
-            } else {
-                // Update last_login
-                $db->update('ordinary_user', [
-                    'last_login' => (new DateTime('NOW'))->format('Y-m-d H:i:s')
-                ], [
-                    'id' => $id
-                ]);
-            }
-
-            // Fetch user from db
-            $res = $db->executeQuery('SELECT * FROM ordinary_user WHERE external_id = ? and auth_type = ?', array(
-                $userInfo['external_id'],
-                $socialName
-            ));
-
-            $userRecord = $res->fetch();
-
-            // If user exists in db
-            if ($userRecord) {
-                /** @var User $user */
-                $user = $serializer->denormalize($userRecord, User::class);
-                $user->setAvatar($userInfo['avatar']);
-                $session->set('user', $user);
-                $app->redirect($app["url_generator"]->generate('main'));
-            }
-        }
-    }
     return 0;
 });
 

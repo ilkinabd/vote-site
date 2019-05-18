@@ -68,13 +68,6 @@
 
     });
 
-    $('#captcha-modal').on('open.zf.reveal', function () {
-        let captchaField = $(this).find('.captcha_field');
-        let img = document.createElement('img');
-        img.src = '/generate/captcha?' + (new Date()).getTime();
-        captchaField.html(img);
-    });
-
     if(parallax){
         window.addEventListener('scroll', function (e) {
             last_known_scroll_position = window.scrollY;
