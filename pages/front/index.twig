@@ -10,12 +10,14 @@
     <script>
         let style = document.createElement('style');
         style.innerHTML =
-            'body{' +
-            'background-image: url("{{ config.body.bodyBgBackImg }}")' +
-            '}' +
-            '.parallax{' +
-            'background-image: url("{{ config.body.bodyBgFrontImg }}")' +
-            '}' +
+                {% if config.body.bodyBgBackHidden != 'true' %}
+            'body{background-image: url("{{ config.body.bodyBgBackImg }}")}' +
+                {% else %}
+            'body{background-color: #2d353c}' +
+                {% endif %}
+                {% if config.body.bodyBgFrontHidden != 'true' %}
+            '.parallax{background-image: url("{{ config.body.bodyBgFrontImg }}")}' +
+                {% endif %}
             '.button-vote {' +
             'background-color: {{ config.singer.buttonBgColorInactive }};' +
             '}' +
@@ -48,10 +50,15 @@
     </script>
 </head>
 <body>
-<div class="parallax-container">
-    <div class="parallax"></div>
-</div>
-<div class="bgcover"></div>
+{% if config.body.bodyBgFrontHidden != 'true' %}
+    <div class="parallax-container">
+        <div class="parallax"></div>
+    </div>
+{% endif %}
+
+{% if config.body.bodyBgBackHidden != 'true' %}
+    <div class="bgcover"></div>
+{% endif %}
 <div class="header">
     <div class="partner">
         {% for partner in partners %}
@@ -84,8 +91,8 @@
                         src="{{ config.social.authOkImg }}" alt=""></a>
             <a data-fb href="{{ url('oauth', {name: 'mr'}) }}" class="social__item"><img
                         src="{{ config.social.authMrImg }}" alt=""></a>
-            <a data-gp href="{{ url('oauth', {name: 'gp'}) }}" class="social__item"><img
-                        src="{{ config.social.authGmImg }}" alt=""></a>
+            <a data-gp href="{{ url('oauth', {name: 'yx'}) }}" class="social__item"><img
+                        src="{{ config.social.authYxImg }}" alt=""></a>
         {% else %}
             {% set socialIcon = config.social.iconVkImg %}
             {% if user.authType == 'vk' %}
@@ -94,8 +101,8 @@
                 {% set socialIcon = config.social.iconOkImg %}
             {% elseif user.authType == 'mr' %}
                 {% set socialIcon = config.social.iconMrImg %}
-            {% elseif user.authType == 'gp' %}
-                {% set socialIcon = config.social.iconGmImg %}
+            {% elseif user.authType == 'yx' %}
+                {% set socialIcon = config.social.iconYxImg %}
             {% endif %}
             <div style="background-color: {{ config.social.authBgColor }}" class="user">
                 <div class="user__circle"><img src="{{ user.avatar }}" alt=""></div>

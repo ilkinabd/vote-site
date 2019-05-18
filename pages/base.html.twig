@@ -11,7 +11,9 @@
 <div id="app">
     <div id="header">
         {% if is_granted('ROLE_ADMIN') %}
-            <menu-top :user-name="{{ app.user.username | capitalize | json_encode | e('html_attr') }}"
+            <menu-top :user-name="{{ app.user.name | capitalize | json_encode | e('html_attr') }}"
+                      :user-surname="{{ app.user.surname | capitalize | json_encode | e('html_attr') }}"
+                      :user-roles="{{ app.user.roles | json_encode | e('html_attr')}}"
                       :logout-path="{{ path('admin_logout') | capitalize | json_encode | e('html_attr') }}"
                       :current-page="{{ current_page | json_encode | e('html_attr') }}"></menu-top>
         {% endif %}
