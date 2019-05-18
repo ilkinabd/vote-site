@@ -8,15 +8,18 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,700i,800" rel="stylesheet">
     <link rel="stylesheet" href="{{ app.asset_path }}/css/style.css"/>
     <script>
-        let loaded = false;
-        window.onload = function () {
-            if (!loaded) {
-                loaded = true;
+        // let loaded = falset
+
+        let timer = setInterval(() => {
+            console.log(document.readyState);
+            if (document.readyState === 'complete') {
                 console.log('loaded');
                 document.getElementById('loader').style.display = 'none';
                 document.body.style.overflow = 'auto';
+                clearInterval(timer)
             }
-        }
+        }, 10);
+
         let style = document.createElement('style');
         style.innerHTML =
                 {% if config.body.bodyBgBackHidden != 'true' %}
@@ -59,145 +62,145 @@
     </script>
 </head>
 <body style="overflow: hidden">
-    <div id="loader">
-        <span>Подождите...</span>
+<div id="loader">
+    <span>Подождите...</span>
+</div>
+{% if config.body.bodyBgFrontHidden != 'true' %}
+    <div class="parallax-container">
+        <div class="parallax"></div>
     </div>
-    {% if config.body.bodyBgFrontHidden != 'true' %}
-        <div class="parallax-container">
-            <div class="parallax"></div>
-        </div>
-    {% endif %}
+{% endif %}
 
-    {% if config.body.bodyBgBackHidden != 'true' %}
-        <div class="bgcover"></div>
-    {% endif %}
-    <div class="header">
-        <div class="partner">
-            {% for partner in partners %}
-                <a target="_blank" href="{{ partner.link }}" class="partner__item"><img
-                            src="{{ partner.img }}" alt=""></a>
-            {% endfor %}
-        </div>
-        <div class="title">
-            <div class="title__left"><img src="{{ config.logo.logoLeftImg }}" alt=""></div>
-            <div class="title__label">
+{% if config.body.bodyBgBackHidden != 'true' %}
+    <div class="bgcover"></div>
+{% endif %}
+<div class="header">
+    <div class="partner">
+        {% for partner in partners %}
+            <a target="_blank" href="{{ partner.link }}" class="partner__item"><img
+                        src="{{ partner.img }}" alt=""></a>
+        {% endfor %}
+    </div>
+    <div class="title">
+        <div class="title__left"><img src="{{ config.logo.logoLeftImg }}" alt=""></div>
+        <div class="title__label">
                 <span class="before"
                       style="background-image: url('{{ config.logo.logoBgImg }}');visibility:
                               {% if config.logo.logoHidden == 'true'%}hidden
                                 {% else %}visible{% endif %};"></span>
-                <span class="title__bg"></span>
-                <img src="{{ config.logo.logoImg }}" alt="">
-            </div>
-            <div class="title__right"><img src="{{ config.logo.logoRightImg }}" alt=""></div>
+            <span class="title__bg"></span>
+            <img src="{{ config.logo.logoImg }}" alt="">
         </div>
+        <div class="title__right"><img src="{{ config.logo.logoRightImg }}" alt=""></div>
     </div>
-    <div class="authorize">
-        <p class="authorize__title">
-            {% if user == false %}{{ config.social.authTextBefore }}{% else %}{{ config.social.authTextAfter }}{% endif %}
-        </p>
-        <div class="social">
-            {% if user == false %}
-                <a data-vk href="{{ url('oauth', {name: 'vk'}) }}" class="social__item"><img
-                            src="{{ config.social.authVkImg }}" alt=""></a>
-                <a data-ok href="{{ url('oauth', {name: 'ok'}) }}" class="social__item"><img
-                            src="{{ config.social.authOkImg }}" alt=""></a>
-                <a data-fb href="{{ url('oauth', {name: 'mr'}) }}" class="social__item"><img
-                            src="{{ config.social.authMrImg }}" alt=""></a>
-                <a data-gp href="{{ url('oauth', {name: 'yx'}) }}" class="social__item"><img
-                            src="{{ config.social.authYxImg }}" alt=""></a>
-            {% else %}
+</div>
+<div class="authorize">
+    <p class="authorize__title">
+        {% if user == false %}{{ config.social.authTextBefore }}{% else %}{{ config.social.authTextAfter }}{% endif %}
+    </p>
+    <div class="social">
+        {% if user == false %}
+            <a data-vk href="{{ url('oauth', {name: 'vk'}) }}" class="social__item"><img
+                        src="{{ config.social.authVkImg }}" alt=""></a>
+            <a data-ok href="{{ url('oauth', {name: 'ok'}) }}" class="social__item"><img
+                        src="{{ config.social.authOkImg }}" alt=""></a>
+            <a data-fb href="{{ url('oauth', {name: 'mr'}) }}" class="social__item"><img
+                        src="{{ config.social.authMrImg }}" alt=""></a>
+            <a data-gp href="{{ url('oauth', {name: 'yx'}) }}" class="social__item"><img
+                        src="{{ config.social.authYxImg }}" alt=""></a>
+        {% else %}
+            {% set socialIcon = config.social.iconVkImg %}
+            {% if user.authType == 'vk' %}
                 {% set socialIcon = config.social.iconVkImg %}
-                {% if user.authType == 'vk' %}
-                    {% set socialIcon = config.social.iconVkImg %}
-                {% elseif user.authType == 'ok' %}
-                    {% set socialIcon = config.social.iconOkImg %}
-                {% elseif user.authType == 'mr' %}
-                    {% set socialIcon = config.social.iconMrImg %}
-                {% elseif user.authType == 'yx' %}
-                    {% set socialIcon = config.social.iconYxImg %}
-                {% endif %}
-                <div style="background-color: {{ config.social.authBgColor }}" class="user">
-                    <div class="user__circle"><img src="{{ user.avatar }}" alt=""></div>
-                    <p class="user__name">{{ user.firstName }}<br>{{ user.lastName }}</p>
-                    <div class="user__social"><img
-                                src="{{ socialIcon }}"
-                                alt=""></div>
-                    <p class="user__exit">
-                        <a href="/logout" style="background-color: {{ config.social.exitButtonBgColor }}"
-                           class="button button-exit">{{ config.social.exitButtonText }}</a>
-                    </p>
-                </div>
+            {% elseif user.authType == 'ok' %}
+                {% set socialIcon = config.social.iconOkImg %}
+            {% elseif user.authType == 'mr' %}
+                {% set socialIcon = config.social.iconMrImg %}
+            {% elseif user.authType == 'yx' %}
+                {% set socialIcon = config.social.iconYxImg %}
             {% endif %}
-        </div>
+            <div style="background-color: {{ config.social.authBgColor }}" class="user">
+                <div class="user__circle"><img src="{{ user.avatar }}" alt=""></div>
+                <p class="user__name">{{ user.firstName }}<br>{{ user.lastName }}</p>
+                <div class="user__social"><img
+                            src="{{ socialIcon }}"
+                            alt=""></div>
+                <p class="user__exit">
+                    <a href="/logout" style="background-color: {{ config.social.exitButtonBgColor }}"
+                       class="button button-exit">{{ config.social.exitButtonText }}</a>
+                </p>
+            </div>
+        {% endif %}
     </div>
-    <div class="singer">
-        {% for singer in singers %}
+</div>
+<div class="singer">
+    {% for singer in singers %}
 
-            <div class="singer__item">
-                <div class="singer__pic">
+        <div class="singer__item">
+            <div class="singer__pic">
                     <span style="background-image: url('{{ config.singer.portraitBgImg }}');visibility:
                             {% if config.singer.portraitBgHidden == 'true'%}hidden
                               {% else %}visible{% endif %};" class="before"></span>
-                    <p style="border-color: {{ config.singer.portraitBorderColor }}" class="singer__circle">
-                        <img src="{{ singer.img }}" alt="">
-                    </p>
-                    <span style="background-image: url('{{ config.singer.portraitElementImg }}');visibility:
-                            {% if config.singer.portraitElementHidden == 'true'%}hidden
-                              {% else %}visible{% endif %};" class="after"></span>
-                </div>
-                <div class="singer__info">
-                    <p class="singer__city">{{ singer.city }}</p>
-                    <p class="singer__name">{{ singer.name }} {{ singer.surname }}</p>
-                    <p class="singer__age">{{ singer.age }} лет</p>
-                    <div class="singer__music">
-                        <a href="" data-music="{{ app.music_path }}/{{ singer.music_link }}" class="singer__play"></a>
-                        <span class="singer__song">{{ singer.music_name }}</span>
-                    </div>
-                </div>
-                <div class="singer__action">
-                    <p class="singer__count">{{ singer.vote_count }} %</p>
-                    <p class="singer__vote{% if user != false and user.voted == 1 and user.singerId == singer.id %}
-                    active{% elseif user != false and user.voted == 1 and user.singerId != singer.id %}
-                    inactive{% endif %}">
-                        {#                   data-open="captcha-modal">#}
-                        <span style="background-image: url('{{ config.singer.buttonBgInactiveImg }}');visibility:
-                                {% if config.singer.buttonBgInactiveHidden == 'true'%}hidden
-                                  {% else %}visible{% endif %};"
-                              class="before"></span>
-                        <a data-vote data-singer-id="{{ singer.id }}" class="button button-vote">
-                            <span class="singer__check"></span>
-                            {% if user != false and user.singerId == singer.id %}
-                                <span style="color: {{ config.singer.buttonTextColorActive }}">{{ config.singer.buttonTextActive }}</span>
-                            {% else %}
-                                <span style="color: {{ config.singer.buttonTextColorInactive }}">{{ config.singer.buttonTextInactive }}</span>
-                            {% endif %}
-                        </a>
-                        <span style="background-image: url('{{ config.singer.buttonBgActiveImg }}');visibility:
-                                {% if config.singer.buttonBgActiveHidden == 'true'%}hidden
-                                  {% else %}visible{% endif %};" class="after"></span>
-                    </p>
+                <p style="border-color: {{ config.singer.portraitBorderColor }}" class="singer__circle">
+                    <img src="{{ singer.img }}" alt="">
+                </p>
+                <span style="background-image: url('{{ config.singer.portraitElementImg }}');visibility:
+                        {% if config.singer.portraitElementHidden == 'true'%}hidden
+                          {% else %}visible{% endif %};" class="after"></span>
+            </div>
+            <div class="singer__info">
+                <p class="singer__city">{{ singer.city }}</p>
+                <p class="singer__name">{{ singer.name }} {{ singer.surname }}</p>
+                <p class="singer__age">{{ singer.age }} лет</p>
+                <div class="singer__music">
+                    <a href="" data-music="{{ app.music_path }}/{{ singer.music_link }}" class="singer__play"></a>
+                    <span class="singer__song">{{ singer.music_name }}</span>
                 </div>
             </div>
-        {% endfor %}
-    </div>
-    <div class="footer">
-        <p class="footer__back">
+            <div class="singer__action">
+                <p class="singer__count">{{ singer.vote_count }} %</p>
+                <p class="singer__vote{% if user != false and user.voted == 1 and user.singerId == singer.id %}
+                    active{% elseif user != false and user.voted == 1 and user.singerId != singer.id %}
+                    inactive{% endif %}">
+                    {#                   data-open="captcha-modal">#}
+                    <span style="background-image: url('{{ config.singer.buttonBgInactiveImg }}');visibility:
+                            {% if config.singer.buttonBgInactiveHidden == 'true'%}hidden
+                              {% else %}visible{% endif %};"
+                          class="before"></span>
+                    <a data-vote data-singer-id="{{ singer.id }}" class="button button-vote">
+                        <span class="singer__check"></span>
+                        {% if user != false and user.singerId == singer.id %}
+                            <span style="color: {{ config.singer.buttonTextColorActive }}">{{ config.singer.buttonTextActive }}</span>
+                        {% else %}
+                            <span style="color: {{ config.singer.buttonTextColorInactive }}">{{ config.singer.buttonTextInactive }}</span>
+                        {% endif %}
+                    </a>
+                    <span style="background-image: url('{{ config.singer.buttonBgActiveImg }}');visibility:
+                            {% if config.singer.buttonBgActiveHidden == 'true'%}hidden
+                              {% else %}visible{% endif %};" class="after"></span>
+                </p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+<div class="footer">
+    <p class="footer__back">
             <span style="background-image: url('{{ config.footer.backToSiteBtnBgInactiveImg }}');visibility:
                     {% if config.footer.backToSiteBtnBgInactiveHidden == 'true'%}hidden
                       {% else %}visible{% endif %};" class="before"></span>
-            <a href="https://www.jesc-russia.com/" class="button button-back">{{ config.footer.backToSiteBtnText }}</a>
-            <span style="background-image: url('{{ config.footer.backToSiteBtnBgActiveImg }}');visibility:
-                    {% if config.footer.backToSiteBtnBgActiveHidden == 'true'%}hidden
-                      {% else %}visible{% endif %};" class="after"></span>
-        </p>
-        <p class="footer__info">
-            Результаты голосования смотрите на сайте <a href="https://www.jesc-russia.com/">jesc-russia.com</a>
-        </p>
-    </div>
-    <script src="{{ app.asset_path }}/js/foundation/jquery.min.js"></script>
-    <script src="{{ app.asset_path }}/js/foundation/what-input.min.js"></script>
-    <script src="{{ app.asset_path }}/js/foundation/foundation.min.js"></script>
-    <script src="{{ app.asset_path }}/js/app.js"></script>
+        <a href="https://www.jesc-russia.com/" class="button button-back">{{ config.footer.backToSiteBtnText }}</a>
+        <span style="background-image: url('{{ config.footer.backToSiteBtnBgActiveImg }}');visibility:
+                {% if config.footer.backToSiteBtnBgActiveHidden == 'true'%}hidden
+                  {% else %}visible{% endif %};" class="after"></span>
+    </p>
+    <p class="footer__info">
+        Результаты голосования смотрите на сайте <a href="https://www.jesc-russia.com/">jesc-russia.com</a>
+    </p>
+</div>
+<script src="{{ app.asset_path }}/js/foundation/jquery.min.js"></script>
+<script src="{{ app.asset_path }}/js/foundation/what-input.min.js"></script>
+<script src="{{ app.asset_path }}/js/foundation/foundation.min.js"></script>
+<script src="{{ app.asset_path }}/js/app.js"></script>
 <script>
     $(document).foundation();
     let timerId = setInterval(function () {
