@@ -73,7 +73,8 @@
             last_known_scroll_position = window.scrollY;
             doSomething(last_known_scroll_position);
 
-            /*        if (!ticking) {
+            /*
+                    if (!ticking) {
                         doSomething(last_known_scroll_position);
                         window.requestAnimationFrame(function () {
                             doSomething(last_known_scroll_position);
@@ -81,7 +82,8 @@
                         });
 
                         ticking = true;
-                    }*/
+                    }
+           */
 
         });
     }
