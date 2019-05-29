@@ -67,20 +67,25 @@ class BackendAjaxControllerProvider implements ControllerProviderInterface
                     $key,
                     $type
                 ], 0);
+                $mimeType = $file->getMimeType();
+                $fileData = file_get_contents($file->getPathname());
+
+                if ($mimeType === 'image/svg+') {
+                    $mimeType .= 'xml';
+                    $fileData = str_replace('<svg', '<svg fill="red" ', $fileData);
+                }
 
                 if (!$id) {
-                    $data = file_get_contents($file->getPathname());
                     $db->insert('backend_config', [
-                        'value' => $data,
+                        'value' => $fileData,
                         'name' => $key,
                         'type' => $type,
-                        'mime_type' => $file->getMimeType()
+                        'mime_type' => $mimeType
                     ]);
                 } else {
-                    $data = file_get_contents($file->getPathname());
                     $db->update('backend_config', [
-                        'value' => $data,
-                        'mime_type' => $file->getMimeType()
+                        'value' => $fileData,
+                        'mime_type' => $mimeType
                     ], [
                         'type' => $type,
                         'name' => $key
@@ -110,6 +115,10 @@ class BackendAjaxControllerProvider implements ControllerProviderInterface
 
             while ($row = $res->fetch()) {
                 if (!empty($row['mime_type'])) {
+                    if ($row['mime_type'] === 'image/svg+') {
+                        $row['mime_type'] .= 'xml';
+                        $row['value'] = str_replace('<svg', '<svg fill="red" ', $row['value']);
+                    }
                     $row['value'] = 'data:' . $row['mime_type'] . ';base64, ' . base64_encode($row['value']);
                 }
                 $config[$row['name']] = $row['value'];
@@ -245,7 +254,7 @@ class BackendAjaxControllerProvider implements ControllerProviderInterface
                 if (!empty($row['music_link'])) {
 
                     $currentDirName = dirname(__FILE__);
-                    $musicFile = $currentDirName . '/music/' . $row['music_link'];
+                    $musicFile = $currentDirName . '/../web/music/' . $row['music_link'];
 
                     if (file_exists($musicFile)) {
                         $row['music_link'] = $app['music_path'] . '/' . $row['music_link'];
@@ -299,7 +308,7 @@ class BackendAjaxControllerProvider implements ControllerProviderInterface
                     $musicFileTmpPath = $musicFile->getPathname();
                     $currentDirName = dirname(__FILE__);
                     $musicFileName = md5($musicFile->getFilename()) . '.' . $musicFile->getClientOriginalExtension();
-                    move_uploaded_file($musicFileTmpPath, $currentDirName . '/music/' . $musicFileName);
+                    move_uploaded_file($musicFileTmpPath, $currentDirName . '/../web/music/' . $musicFileName);
                     $body['music_link'] = $musicFileName;
 
                 }

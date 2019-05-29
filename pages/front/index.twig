@@ -158,7 +158,10 @@
                 <p class="singer__name">{{ singer.name }} {{ singer.surname }}</p>
                 <p class="singer__age">{{ singer.age }} лет</p>
                 <div class="singer__music">
-                    <a href="" data-music="{{ app.music_path }}/{{ singer.music_link }}" class="singer__play"></a>
+                    <a href="" data-music="{{ app.music_path }}/{{ singer.music_link }}" class="singer__play">
+                        <span class="before" style="background-image: url('{{ config.singer.playImg }}')"></span>
+                        <span class="after" style="background-image: url('{{ config.singer.stopImg }}')"></span>
+                    </a>
                     <span class="singer__song">{{ singer.music_name }}</span>
                 </div>
             </div>
@@ -173,7 +176,10 @@
                               {% else %}visible{% endif %};"
                           class="before"></span>
                     <a data-vote data-singer-id="{{ singer.id }}" class="button button-vote">
-                        <span class="singer__check"></span>
+                        <span class="singer__check">
+                            <span class="before"></span>
+                            <span class="after"></span>
+                        </span>
                         {% if user != false and user.singerId == singer.id %}
                             <span style="color: {{ config.singer.buttonTextColorActive }}">{{ config.singer.buttonTextActive }}</span>
                         {% else %}
