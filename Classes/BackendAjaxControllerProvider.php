@@ -72,7 +72,6 @@ class BackendAjaxControllerProvider implements ControllerProviderInterface
 
                 if ($mimeType === 'image/svg+') {
                     $mimeType .= 'xml';
-                    $fileData = str_replace('<svg', '<svg fill="red" ', $fileData);
                 }
 
                 if (!$id) {
@@ -117,7 +116,6 @@ class BackendAjaxControllerProvider implements ControllerProviderInterface
                 if (!empty($row['mime_type'])) {
                     if ($row['mime_type'] === 'image/svg+') {
                         $row['mime_type'] .= 'xml';
-                        $row['value'] = str_replace('<svg', '<svg fill="red" ', $row['value']);
                     }
                     $row['value'] = 'data:' . $row['mime_type'] . ';base64, ' . base64_encode($row['value']);
                 }

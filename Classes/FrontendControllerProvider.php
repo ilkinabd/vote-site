@@ -69,6 +69,9 @@ class FrontendControllerProvider implements ControllerProviderInterface
 
                 while ($row = $config_result->fetch()) {
                     if (!empty($row['mime_type'])) {
+                        if ($row['mime_type'] === 'image/svg+') {
+                            $row['mime_type'] .= 'xml';
+                        }
                         $row['value'] = 'data:' . $row['mime_type'] . ';base64, ' . base64_encode($row['value']);
                     }
                     $config[$row['type']][$row['name']] = $row['value'];
