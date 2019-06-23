@@ -1,22 +1,11 @@
 .idea/
 config/
 vendor/
-sql/
 console/
 web/back/bower_components/
 web/back/node_modules/
-# web/back/dist/
-web/back/scss/
-web/back/src/
-web/back/package.json
-web/back/package-lock.json
-web/back/webpack.config.js
 web/front/bower_components/
-web/front/scss/
 web/front/node_modules/
-web/front/package.json
-web/front/package-lock.json
-web/front/gulpfile.js
 web/music/
 web/.htaccess
 composer.phar
