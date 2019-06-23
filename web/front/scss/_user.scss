@@ -1,0 +1,53 @@
+.user {
+  @include flex;
+  @include flex-align(null, middle);
+  padding: get-vw(15);
+  background-color: #ff00ff;
+  border-radius: get-vw(60);
+  &__circle {
+    width: get-vw(100);
+    height: get-vw(100);
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: #fff;
+    @include breakpoint(medium down) {
+      width: rem-calc(100/1.5);
+      height: rem-calc(100/1.5);
+    }
+  }
+  &__name {
+    color: #fff;
+    line-height: normal;
+    font-size: get-vw(20);
+    font-weight: bold;
+    margin-bottom: 0;
+    margin: 0 get-vw(40);
+    @include breakpoint(medium down) {
+      font-size: rem-calc(20/1.5);
+      margin: 0 rem-calc(40/1.5);
+    }
+    @include breakpoint(small only){
+      display: none;
+    }
+  }
+  &__exit {
+    margin-bottom: 0;
+    margin-left: get-vw(20);
+    @include breakpoint(medium down) {
+      margin-left: rem-calc(20/1.5);
+    }
+  }
+  &__social {
+    width: get-vw(48);
+    @include breakpoint(medium down) {
+      width: rem-calc(48/1.5);
+    }
+    @include breakpoint(small only){
+      margin-left: rem-calc(15);
+    }
+  }
+  @include breakpoint(medium down) {
+    padding: rem-calc(15/1.5);
+    border-radius: rem-calc(60/1.5);
+  }
+}

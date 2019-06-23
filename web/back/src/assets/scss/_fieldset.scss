@@ -1,0 +1,102 @@
+.fieldset {
+  margin-top: 0;
+  margin-bottom: 0;
+  position: relative;
+  padding-bottom: 56px;
+
+  &__bottom {
+    margin-top: rem-calc(32);
+    @include flex;
+    // @include flex-align(justify);
+  }
+
+  &__upload {
+    font-size: rem-calc(14);
+  }
+
+  &__save {
+    position: absolute;
+    width: 350px;
+    bottom: rem-calc(12);
+    left: 50%;
+    transform: translateX(-50%);
+    margin-bottom: 0;
+    @include flex();
+    @include flex-align(null, middle);
+
+    img {
+      width: 28px;
+      height: 28px;
+      margin-left: rem-calc(16);
+      display: none;
+    }
+
+    .button {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.singer {
+  &__save {
+    @include flex();
+    @include flex-align(null, middle);
+
+    img {
+      width: 28px;
+      height: 28px;
+      margin-left: rem-calc(16);
+      display: none;
+    }
+  }
+}
+
+input[type="text"],
+input[type="color"],
+input[type="password"] {
+  border: none;
+  box-shadow: none;
+
+  &:focus {
+    border: none;
+    box-shadow: none;
+  }
+}
+
+body {
+  background-color: #f5f5f5;
+}
+
+.input.input-shadow {
+  box-shadow: inset 0px 3px 4px rgba(10, 10, 10, 0.1);
+}
+
+.input.input-shadow:focus {
+  box-shadow: inset 0px 1px 4px rgba(10, 10, 10, 0.1);
+}
+
+.fieldset {
+  border: none;
+}
+
+.card {
+  border: none;
+  box-shadow: 0px 12px 20px -13px rgba(0, 0, 0, 0.48);
+  border-radius: 15px;
+
+  &__title {
+    span {
+      font-size: rem-calc(14);
+      opacity: .3;
+    }
+    b{
+      font-size: rem-calc(14);
+      opacity: .3;
+    }
+  }
+}
+
+.input-group-label {
+  border: none;
+  box-shadow: none;
+}

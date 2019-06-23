@@ -1,0 +1,20 @@
+.social {
+  @include flex;
+  &__item {
+    width: get-vw(158);
+    height: get-vw(158);
+    display: inline-block;
+    @include breakpoint(xxlarge) {
+      width: auto;
+      height: auto;
+    }
+    @include breakpoint(medium only) {
+      width: rem-calc(158/1.5);
+      height: rem-calc(158/1.5);
+    }
+    @include breakpoint(small only) {
+      width: rem-calc(158/2.5);
+      height: rem-calc(158/2.5);
+    }
+  }
+}

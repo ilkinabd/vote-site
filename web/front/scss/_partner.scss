@@ -1,0 +1,36 @@
+.partner {
+  @include flex;
+  &__item {
+    width: get-vw(280);
+    text-align: center;
+    //overflow: hidden;
+    @include flex;
+    @include flex-align(center, middle);
+    @include breakpoint(medium only) {
+      width: rem-calc(280/2.2);
+    }
+    @include breakpoint(small only) {
+      width: rem-calc(280/3.5);
+    }
+    & > img {
+      transition: transform .3s;
+      transform: scale(1);
+    }
+    &:hover {
+      & > img {
+        transform: scale(1.1);
+      }
+    }
+  }
+  margin-top: get-vw(30);
+  @include breakpoint(medium only) {
+    margin-top: rem-calc(30/1.5);
+    @include flex-align(justify, middle);
+    width: 60%;
+  }
+  @include breakpoint(small only) {
+    @include flex-align(justify, middle);
+    margin-top: rem-calc(30/2);
+    width: 90%;
+  }
+}

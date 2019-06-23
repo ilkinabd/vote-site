@@ -1,0 +1,106 @@
+.title {
+  @include flex;
+  @include flex-align(center, middle);
+  padding: get-vw(100) 0;
+
+  &__left,
+  &__right {
+    width: get-vw(43);
+    height: get-vw(122);
+    z-index: 1;
+    @include flex();
+    @include flex-align(null,middle);
+    @include breakpoint(medium only) {
+      width: rem-calc(43/1.5);
+      height: rem-calc(122/1.5);
+    }
+    @include breakpoint(small only) {
+      width: rem-calc(43/2);
+      height: rem-calc(122/2);
+    }
+  }
+
+  &__label {
+    width: get-vw(530);
+    height: get-vw(200);
+    margin: 0 get-vw(20) 0 get-vw(28);
+    position: relative;
+
+    //&:before {
+    //  content: '';
+    //  display: inline-block;
+    //  position: absolute;
+    //  width: get-vw(353);
+    //  height: get-vw(336);
+    //  right: get-vw(-84);
+    //  top: get-vw(-67);
+    //  background-image: url("./../images/elements/final-bg.png");
+    //  background-repeat: no-repeat;
+    //  background-position: right center;
+    //  background-size: contain;
+    //  @include breakpoint(medium only) {
+    //    width: rem-calc(353/1.5);
+    //    height: rem-calc(336/1.5);
+    //    right: rem-calc(-84/1.5);
+    //    top: rem-calc(-67/1.5);
+    //  }
+    //  @include breakpoint(small only) {
+    //    width: rem-calc(353/2.5);
+    //    height: rem-calc(336/2.5);
+    //    right: rem-calc(-84/2.5);
+    //    top: rem-calc(-67/2.5);
+    //  }
+    //}
+    .before{
+      content: '';
+      display: inline-block;
+      position: absolute;
+      width: get-vw(353);
+      height: get-vw(336);
+      right: get-vw(-84);
+      top: get-vw(-67);
+      // background-image: url("./../images/elements/final-bg.png");
+      background-repeat: no-repeat;
+      background-position: right center;
+      background-size: contain;
+      @include breakpoint(medium only) {
+        width: rem-calc(353/1.5);
+        height: rem-calc(336/1.5);
+        right: rem-calc(-84/1.5);
+        top: rem-calc(-67/1.5);
+      }
+      @include breakpoint(small only) {
+        width: rem-calc(353/2.5);
+        height: rem-calc(336/2.5);
+        right: rem-calc(-84/2.5);
+        top: rem-calc(-67/2.5);
+      }
+    }
+    img {
+      position: relative
+    }
+
+    @include breakpoint(xxlarge) {
+      text-align: center;
+      width: auto;
+      height: auto;
+    }
+    @include breakpoint(medium only) {
+      width: rem-calc(530/1.5);
+      height: rem-calc(200/1.5);
+      margin: 0 rem-calc(20/1.5) 0 rem-calc(28/1.5);
+    }
+    @include breakpoint(small only) {
+      width: rem-calc(530/2.5);
+      height: rem-calc(200/2.5);
+      margin: 0 rem-calc(20/2.5) 0 rem-calc(28/2.5);
+    }
+  }
+
+  @include breakpoint(medium only) {
+    padding: rem-calc(100/1.5) 0;
+  }
+  @include breakpoint(small only) {
+    padding: rem-calc(100/3) 0;
+  }
+}

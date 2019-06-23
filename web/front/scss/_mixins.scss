@@ -1,0 +1,74 @@
+@function get-vw($target) {
+  $vw-context: (1920*.01) * 1;
+  @return ($target/$vw-context) * 1vw;
+}
+
+@mixin background($path,$width:0,$height:0,$repeat: no-repeat,$position:center) {
+  background: {
+    image: url("#{$default-images-path}/#{$path}");
+    repeat: $repeat;
+    position: $position;
+    size: $width $height;
+  }
+}
+
+@mixin shit-button {
+  background-color: #ad9b64;
+  padding: get-vw(15) get-vw(35);
+  font-weight: bold;
+  color: #fff;
+  font-size: get-vw(14);
+  line-height: normal;
+  text-transform: uppercase;
+  border-radius: get-vw(20);
+  transition: all .4s ease;
+  &:hover,
+  &:focus {
+    background-color: #b7a776;
+    color: #fff;
+  }
+  @include breakpoint(small only) {
+    padding: rem-calc(5) rem-calc(32);
+    font-size: rem-calc(8);
+    border-radius: rem-calc(10);
+  }
+  @include breakpoint(medium only) {
+    padding: rem-calc(15/2) rem-calc(35/2);
+    font-size: rem-calc(14/2);
+    border-radius: rem-calc(20/2);
+  }
+}
+
+@mixin button-tag {
+  text-transform: uppercase;
+  background-color: transparent;
+  border: get-vw(1) solid #ad9b64;
+  border-radius: get-vw(30);
+  transition: all .4s ease;
+  color: #000;
+  &:hover,
+  &:focus {
+    color: #fff;
+    background-color: #ad9b64;
+  }
+  width: get-vw(100);
+  font-weight: 300;
+  font-size: get-vw(10);
+  padding: get-vw(5);
+  @include breakpoint(medium down) {
+    width: rem-calc(90);
+    font-weight: 300;
+    font-size: rem-calc(8);
+    padding: rem-calc(2);
+  }
+  @include breakpoint(small only) {
+    border: rem-calc(1) solid #ad9b64;
+    border-radius: rem-calc(15);
+    padding: rem-calc(4) rem-calc(8);
+  }
+  @include breakpoint(medium only) {
+    border: rem-calc(1) solid #ad9b64;
+    border-radius: rem-calc(30/1.5);
+    padding: rem-calc(8/1.5) rem-calc(16/1.5);
+  }
+}

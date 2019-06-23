@@ -1,0 +1,16 @@
+.authorize {
+  @include flex;
+  @include flex-direction(column);
+  @include flex-align(center, middle);
+  position: relative;
+  &__title {
+    color: #fff;
+    font-size: get-vw(20);
+    @include breakpoint(medium only) {
+      font-size: rem-calc(20/1.5);
+    }
+    @include breakpoint(small only) {
+      font-size: rem-calc(20/2);
+    }
+  }
+}

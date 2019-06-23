@@ -1,0 +1,412 @@
+.singer {
+  @include flex;
+  @include flex-direction(column);
+  @include flex-align(center, middle);
+  margin-top: get-vw(80);
+  position: relative;
+  &__item {
+    @include flex;
+    width: get-vw(1145);
+    &:not(:first-child) {
+      margin-top: get-vw(80);
+      @include breakpoint(medium only) {
+        margin-top: rem-calc(80/1.5);
+      }
+      @include breakpoint(small only) {
+        margin-top: rem-calc(80);
+      }
+    }
+    @include breakpoint(medium only) {
+      width: auto;
+    }
+    @include breakpoint(small only) {
+      width: auto;
+      @include flex-direction(column);
+    }
+  }
+  &__pic {
+    position: relative;
+    width: get-vw(414);
+    img {
+      position: relative;
+    }
+    .before {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      top: get-vw(-81);
+      left: get-vw(-40);
+      width: get-vw(414);
+      height: get-vw(363);
+      //background-image: url("./../images/elements/pic-bg.png");
+      background-repeat: no-repeat;
+      background-size: contain;
+      @include breakpoint(xxlarge) {
+        top: rem-calc(-81);
+        left: rem-calc(-40);
+        width: rem-calc(414);
+        height: rem-calc(363);
+      }
+      @include breakpoint(medium only) {
+        top: rem-calc(-81/2);
+        left: rem-calc(-40/2);
+        width: rem-calc(414/2);
+        height: rem-calc(363/2);
+      }
+      @include breakpoint(small only) {
+        top: rem-calc(-81/2);
+        left: rem-calc(-40/2);
+        width: rem-calc(414/2);
+        height: rem-calc(363/2);
+      }
+    }
+    .after {
+      content: '';
+      display: inline-block;
+      position: absolute;
+      top: 0;
+      left: get-vw(-60);
+      width: get-vw(89);
+      height: get-vw(113);
+      //background-image: url("./../images/elements/triangle.png");
+      background-repeat: no-repeat;
+      background-size: contain;
+      @include breakpoint(xxlarge) {
+        left: rem-calc(-60);
+        width: rem-calc(89);
+        height: rem-calc(113);
+      }
+      @include breakpoint(medium only) {
+        left: rem-calc(-60/2);
+        width: rem-calc(89/2);
+        height: rem-calc(113/2);
+      }
+      @include breakpoint(small only) {
+        left: rem-calc(-60/2);
+        width: rem-calc(89/2);
+        height: rem-calc(113/2);
+      }
+    }
+    @include breakpoint(xxlarge) {
+      width: rem-calc(414);
+    }
+    @include breakpoint(medium only) {
+      width: rem-calc(414/2);
+    }
+    @include breakpoint(small only) {
+      width: auto;
+    }
+  }
+  &__circle {
+    overflow: hidden;
+    width: get-vw(270);
+    height: get-vw(270);
+    border: 8px solid #ff00ff;
+    border-radius: 50%;
+    position: relative;
+    @include breakpoint(xxlarge) {
+      width: rem-calc(270);
+      height: rem-calc(270);
+    }
+    @include breakpoint(medium only) {
+      width: rem-calc(270/2);
+      height: rem-calc(270/2);
+    }
+    @include breakpoint(small only) {
+      width: rem-calc(270/1.5);
+      height: rem-calc(270/1.5);
+      border: 4px solid #ff00ff;
+    }
+    box-shadow: 7px 0px 10px 0px rgba(0, 0, 0, 0.3);
+  }
+  &__city {
+    color: #fff;
+    font-size: get-vw(16);
+    margin-bottom: 0;
+    @include breakpoint(medium down) {
+      font-size: rem-calc(16/1.5);
+    }
+  }
+  &__name {
+    color: #fff;
+    font-size: get-vw(20);
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 0;
+    margin-top: get-vw(20);
+    @include breakpoint(medium only) {
+      font-size: rem-calc(20/1.5);
+      margin-top: rem-calc(20/1.5);
+    }
+    @include breakpoint(small only) {
+      font-size: rem-calc(20/1.5);
+    }
+  }
+  &__song {
+    color: #fff;
+    font-size: get-vw(20);
+    font-weight: bold;
+    font-style: italic;
+    @include breakpoint(medium down) {
+      font-size: rem-calc(20/1.5);
+    }
+  }
+  &__age {
+    font-size: get-vw(16);
+    color: #fff;
+    margin-bottom: 0;
+    @include breakpoint(medium down) {
+      font-size: rem-calc(16/1.5);
+    }
+  }
+  &__count {
+    color: #fff;
+    font-size: get-vw(20);
+    font-weight: bold;
+    text-align: center;
+    @include breakpoint(medium only) {
+      font-size: rem-calc(20/1.5);
+    }
+    @include breakpoint(small only) {
+      font-size: rem-calc(20/2);
+    }
+  }
+  &__action {
+    width: get-vw(450);
+    @include breakpoint(medium only) {
+      width: auto;
+    }
+    @include breakpoint(small only) {
+      width: auto;
+    }
+  }
+  &__music {
+    margin-top: get-vw(40);
+    @include flex();
+    @include flex-align(null, middle);
+    @include breakpoint(medium only) {
+      margin-top: rem-calc(40/1.5);
+    }
+    @include breakpoint(small only) {
+      margin-top: rem-calc(40/2);
+    }
+  }
+  &__vote &__check {
+    width: get-vw(78);
+    height: get-vw(78);
+    position: relative;
+    border-radius: 50%;
+    background-color: #fff;
+    display: inline-block;
+    vertical-align: middle;
+    transition: box-shadow .3s;
+    box-shadow: get-vw(4) get-vw(3) get-vw(0) get-vw(0) rgba(0, 218, 218, 1);
+    .before {
+      opacity: 0;
+      visibility: hidden;
+      content: '';
+      display: inline-block;
+      position: absolute;
+      width: get-vw(48);
+      height: get-vw(35);
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      // background-image: url("./../images/elements/checkbox-active.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+    .after {
+      opacity: 0;
+      visibility: hidden;
+      content: '';
+      display: inline-block;
+      position: absolute;
+      width: get-vw(48);
+      height: get-vw(48);
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      // background-image: url("./../images/elements/checkbox-inactive.png");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: contain;
+    }
+    @include breakpoint(xxlarge) {
+      width: rem-calc(78);
+      height: rem-calc(78);
+    }
+    @include breakpoint(small only) {
+      width: rem-calc(78/3);
+      height: auto;
+      //vertical-align: top;
+    }
+    @include breakpoint(medium down) {
+      box-shadow: rem-calc(4/2) rem-calc(3/2) rem-calc(0) rem-calc(0) rgba(0, 218, 218, 1);
+      width: rem-calc(78/2);
+      height: rem-calc(78/2);
+    }
+  }
+  &__vote {
+    margin-bottom: 0;
+    position: relative;
+    text-align: center;
+    & > .before {
+      position: absolute;
+      top: get-vw(-62);
+      left: get-vw(-58);
+      content: '';
+      display: inline-block;
+      width: get-vw(286);
+      height: get-vw(251);
+      // background-image: url("./../images/elements/button-bg-inactive.png");
+      background-repeat: no-repeat;
+      background-size: contain;
+      @include breakpoint(medium only) {
+        top: rem-calc(-62/2);
+        left: rem-calc(-58/2);
+        width: rem-calc(286/2);
+        height: rem-calc(251/2);
+      }
+      @include breakpoint(small only) {
+        top: rem-calc(-62/2);
+        left: rem-calc(-58/2);
+        width: rem-calc(286/2);
+        height: rem-calc(251/2);
+      }
+    }
+    & > .after {
+      position: absolute;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .5s, visibility .5s;
+      top: get-vw(-62);
+      left: get-vw(-58);
+      content: '';
+      display: inline-block;
+      width: get-vw(286);
+      height: get-vw(251);
+      // background-image: url("./../images/elements/button-bg-active.png");
+      background-repeat: no-repeat;
+      background-size: contain;
+      @include breakpoint(medium only) {
+        top: rem-calc(-62/2);
+        left: rem-calc(-58/2);
+        width: rem-calc(286/2);
+        height: rem-calc(251/2);
+      }
+      @include breakpoint(small only) {
+        top: rem-calc(-62/2);
+        left: rem-calc(-58/2);
+        width: rem-calc(286/2);
+        height: rem-calc(251/2);
+      }
+    }
+    &:not(.active):not(.inactive) {
+      &:hover,
+      &:focus {
+        outline: none;
+        & > .after {
+          opacity: 1;
+          visibility: visible;
+        }
+        .singer__check {
+          box-shadow: get-vw(4) get-vw(3) get-vw(0) get-vw(0) rgba(198, 0, 198, 1);
+          @include breakpoint(medium down) {
+            box-shadow: rem-calc(4/2) rem-calc(3/2) rem-calc(0) rem-calc(0) rgba(198, 0, 198, 1);
+          }
+        }
+      }
+    }
+    &.active {
+      & > .after {
+        opacity: 1;
+        visibility: visible;
+      }
+      .button-vote {
+        background-color: #ff00ff;
+        span {
+          color: #fff;
+        }
+      }
+      .singer__check .before {
+        opacity: 1;
+        visibility: visible;
+      }
+      .singer__check {
+        box-shadow: get-vw(4) get-vw(3) get-vw(0) get-vw(0) rgba(198, 0, 198, 1);
+        @include breakpoint(medium down) {
+          box-shadow: rem-calc(4/2) rem-calc(3/2) rem-calc(0) rem-calc(0) rgba(198, 0, 198, 1);
+        }
+      }
+    }
+    &.inactive {
+      opacity: .5;
+      .singer__check .after {
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+  }
+  &__info {
+    width: get-vw(350);
+    @include breakpoint(medium only) {
+      width: rem-calc(350/1.5);
+    }
+    @include breakpoint(small only) {
+      width: auto;
+    }
+  }
+  &__song {
+    margin-left: get-vw(20);
+  }
+  &__play {
+    display: inline-block;
+    width: get-vw(59);
+    height: get-vw(59);
+    position: relative;
+    .after,
+    .before {
+      content: '';
+      display: inline-block;
+      //transition: opacity .3s, visibility .3s;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    .before {
+      opacity: 1;
+      visibility: visible;
+      // background-image: url("./../images/elements/play.png");
+    }
+    .after {
+      opacity: 0;
+      visibility: hidden;
+      // background-image: url("./../images/elements/pause.png");
+    }
+    &.playing .after {
+      opacity: 1;
+      visibility: visible;
+    }
+    &.playing .before {
+      opacity: 0;
+      visibility: hidden;
+    }
+    @include breakpoint(medium down) {
+      width: rem-calc(59/1.5);
+      height: rem-calc(59/1.5);
+    }
+  }
+  @include breakpoint(medium only) {
+    margin-top: rem-calc(80/1.5);
+  }
+  @include breakpoint(small only) {
+    margin-top: rem-calc(80/2);
+  }
+}

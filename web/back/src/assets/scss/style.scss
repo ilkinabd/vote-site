@@ -1,0 +1,117 @@
+// Default variables.
+@import 'default-variables';
+// Foundation Framework.
+@import '~foundation-sites/scss/foundation';
+@import "~motion-ui/motion-ui";
+@import "fi";
+
+@include foundation-global-styles;
+@include foundation-typography;
+@include foundation-menu;
+@include foundation-top-bar;
+@include foundation-forms;
+@include foundation-callout;
+@include foundation-button;
+@include foundation-visibility-classes;
+@include foundation-xy-grid-classes;
+@include foundation-flex-classes;
+@include foundation-prototype-classes;
+@include foundation-reveal;
+@include foundation-table;
+@include foundation-pagination;
+@include foundation-close-button;
+
+@import "fieldset";
+
+.modal-singer {
+  background-color: #f5f5f5;
+}
+
+.modal__title {
+  margin-bottom: rem-calc(32);
+  text-align: center;
+  font-size: rem-calc(18);
+}
+
+.button {
+  border-radius: 32px;
+  background-color: #39c428;
+}
+
+
+.button:hover,
+.button:focus {
+  background-color: #29981c;
+}
+
+.button-save {
+  background-color: #1ac4de;
+}
+
+.button-save:hover,
+.button-save:focus {
+  background-color: #1597ac;
+}
+
+.button-exit {
+  background-color: #d84327;
+}
+
+.button-exit:hover,
+.button-exit:focus {
+  background-color: #b9301c;
+}
+
+.thumbnail {
+  @include flex;
+  @include flex-align(center, middle);
+  padding: rem-calc(16);
+  text-align: center;
+  height: 150px;
+  img{
+    max-width: rem-calc(150);
+  }
+  overflow-y: hidden;
+  background-color: #2d353c;
+}
+
+.form {
+  &-typo {
+    max-width: rem-calc(1140);
+    margin: 0 auto;
+  }
+
+  &-singer {
+    max-width: rem-calc(1140);
+    margin: 0 auto;
+  }
+
+  &__group {
+    @include flex;
+  }
+}
+
+.vote {
+  max-width: rem-calc(1140);
+  margin: 0 auto;
+}
+
+.pager {
+  @include flex();
+  @include flex-align(center,middle);
+  list-style-type: none;
+  margin-left: 0;
+  & > li > a {
+    padding: rem-calc(3) rem-calc(10);
+    color: #000;
+    display: block;
+  }
+  &> li.active > a{
+    background-color: #1779ba;
+    color: #fff;
+  }
+
+  & > li:not(.disabled):not(.active):hover a {
+    background-color: #e6e6e6;
+  }
+}

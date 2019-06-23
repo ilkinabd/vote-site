@@ -1,0 +1,231 @@
+<template>
+    <form class="form form-typo" action="">
+        <div class="grid-x grid-padding-x grid-padding-y">
+            <div class="cell">
+                <fieldset class="fieldset">
+                    <legend>Лого сайта</legend>
+                    <div class="grid-x grid-padding-x">
+                        <div v-for="(widget,key,index) in config.logo" :key="index"
+                             :class="`cell ${widget.column_size}`">
+                            <div v-if="widget.name === 'image'" class="card callout">
+                                <p class="card__title">{{widget.title}}<br>
+                                    <span>Рекомендуемый размер</span> <b>{{widget.recommended}}</b>
+                                </p>
+                                <p class="thumbnail">
+                                    <img :src="widget.base64" alt="">
+                                </p>
+                                <p v-if="widget.can_hide">
+                                    <input :id="widget.code" type="checkbox" v-model="widget.is_hidden"
+                                           true-value="true" false-value="false">
+                                    <label :for="widget.code">Спрятать</label>
+                                </p>
+                                <p>
+                                    <label :for="widget.code" class="button expanded">Загрузить</label>
+                                    <input :id="widget.code" type="file" class="show-for-sr"
+                                           @change.prevent="widget.value = $event.target.files[0]">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fieldset__save">
+                        <a href="#" class="button expanded button-save"
+                           @click.prevent="setTypo(config.logo,$event.target)">Сохранить</a>
+                        <img src="./../assets/images/checked.svg" alt="">
+                    </p>
+                </fieldset>
+            </div>
+        </div>
+    </form>
+</template>
+
+<script>
+    import $ from 'jquery'
+
+    export default {
+        name: 'AdminTypo',
+        data() {
+            return {
+                title: 'Admin typo page',
+                partners: [],
+                config: {
+                    partners: [],
+                    logo: [],
+                    body: [],
+                    social: [],
+                    singer: [],
+                    footer: []
+                },
+                widget: {
+                    image: {
+                        name: 'image',
+                        title: null,
+                        code: null,
+                        column_size: null,
+                        value: null,
+                        base64: null,
+                        recommended: null,
+                        can_hide: false,
+                        is_hidden: false
+                    },
+                    partner: {
+                        name: 'partner',
+                        title: null,
+                        code: null,
+                        column_size: null,
+                        link: null,
+                        img: null,
+                        recommended: null
+                    },
+                    text: {
+                        name: 'text',
+                        title: null,
+                        code: null,
+                        column_size: null,
+                        value: null
+                    },
+                    color: {
+                        name: 'color',
+                        title: null,
+                        code: null,
+                        column_size: null,
+                        value: null
+                    }
+                }
+            }
+        },
+        mounted() {
+            this.getTypo();
+        },
+        methods: {
+            setTypo(array, target) {
+                let button = $(target);
+                let statusOk = $(target).parent().find('img');
+                button.text('Подождите...')
+                let fd = new FormData;
+
+                for (let i = 0; i < array.length; i++) {
+                    let item = array[i];
+                    for (let field in item) {
+                        if (item.hasOwnProperty(field) && field !== 'base64') {
+                            fd.append(`${item.code}[${field}]`, item[field]);
+                        }
+                    }
+                }
+                $.ajax({
+                    url: '/ajax/typo',
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    type: 'POST',
+                    success: (data) => {
+                        button.text('Сохранено');
+                        statusOk.fadeIn('slow').fadeOut('slow', () => {
+                            button.text('Сохранить');
+                        })
+                        this.getTypo();
+                    }
+                });
+
+            },
+            getTypo() {
+                $.ajax({
+                    url: '/ajax/typo',
+                    processData: false,
+                    contentType: false,
+                    type: 'GET',
+                    success: (data) => {
+                        for (let region in this.config) {
+                            if (this.config.hasOwnProperty(region)) {
+                                if (data.hasOwnProperty(region)) {
+                                    this.config[region] = [];
+                                    let regionElements = data[region];
+                                    for (let i = 0; i < regionElements.length; i++) {
+                                        let regionElement = regionElements[i];
+                                        let widgetName = regionElement.widget;
+                                        if (this.widget.hasOwnProperty(widgetName)) {
+                                            let widget = Object.assign({}, this.widget[widgetName]);
+                                            for (let prop in regionElement) {
+                                                if (regionElement.hasOwnProperty(prop)) {
+                                                    if (widget.hasOwnProperty(prop)) {
+                                                        widget[prop] = regionElement[prop];
+                                                    }
+                                                }
+                                            }
+                                            this.config[region].push(widget);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    }
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="scss">
+    .offset-right {
+        right: 2.5rem;
+    }
+
+    .thumbnail {
+        text-align: center;
+        height: 150px;
+        overflow-y: hidden;
+        background-color: #2d353c;
+    }
+</style>
+
+<!--<div class="cell large-4">-->
+<!--    <div class="card callout">-->
+<!--        <p class="card__title">Лого<br>-->
+<!--            <span>Рекомендуемый размер</span> <b>522px X 203px</b>-->
+<!--        </p>-->
+<!--        <p class="thumbnail">-->
+<!--            <img :src="logo.logoImg64" alt="">-->
+<!--        </p>-->
+<!--        <p>-->
+<!--            <label for="logo-pic" class="button expanded">Загрузить</label>-->
+<!--            <input id="logo-pic" type="file" class="show-for-sr"-->
+<!--                   @change.prevent="logo.logoImg = $event.target.files[0]">-->
+<!--        </p>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<div class="cell large-4">-->
+<!--    <div class="card callout">-->
+<!--        <p class="card__title">Правый элемент<br>-->
+<!--            <span>Рекомендуемый размер</span> <b>43px X 122px</b>-->
+<!--        </p>-->
+<!--        <p class="thumbnail">-->
+<!--            <img :src="logo.logoRightImg64" alt="">-->
+<!--        </p>-->
+<!--        <p>-->
+<!--            <label for="logo-right-pic" class="button expanded">Загрузить</label>-->
+<!--            <input id="logo-right-pic" type="file" class="show-for-sr"-->
+<!--                   @change.prevent="logo.logoRightImg = $event.target.files[0]">-->
+<!--        </p>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<div class="cell">-->
+<!--    <div class="card callout">-->
+<!--        <p class="card__title">Фон<br>-->
+<!--            <span>Рекомендуемый размер</span> <b>353px X 336px</b>-->
+<!--        </p>-->
+<!--        <p class="thumbnail">-->
+<!--            <img :src="logo.logoBgImg64" alt="">-->
+<!--        </p>-->
+<!--        <p>-->
+<!--            <input id="hide-logo-bg-img" type="checkbox" v-model="logo.logoHidden"-->
+<!--                   true-value="true" false-value="false">-->
+<!--            <label for="hide-logo-bg-img">Спрятать</label>-->
+<!--        </p>-->
+<!--        <p>-->
+<!--            <label for="logo-bg-pic" class="button expanded">Загрузить</label>-->
+<!--            <input id="logo-bg-pic" type="file" class="show-for-sr"-->
+<!--                   @change.prevent="logo.logoBgImg = $event.target.files[0]">-->
+<!--        </p>-->
+<!--    </div>-->
+<!--</div>-->
+

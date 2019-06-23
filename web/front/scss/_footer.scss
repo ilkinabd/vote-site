@@ -1,0 +1,86 @@
+.footer {
+  @include flex;
+  @include flex-align(center, middle);
+  @include flex-direction(column);
+  padding-top: get-vw(50);
+  // padding-bottom: get-vw(100);
+  position: relative;
+  &__back {
+    margin-bottom: 0;
+    position: relative;
+    .before {
+      position: absolute;
+      transition: opacity .5s, visibility .5s;
+      top: get-vw(-62);
+      left: get-vw(-58);
+      content: '';
+      display: inline-block;
+      width: get-vw(286);
+      height: get-vw(251);
+      // background-image: url("./../images/elements/button-bg-active.png");
+      background-repeat: no-repeat;
+      background-size: contain;
+      @include breakpoint(medium down) {
+        top: rem-calc(-62/2);
+        left: rem-calc(-58/2);
+        width: rem-calc(286/2);
+        height: rem-calc(251/2);
+      }
+    }
+    .after {
+      position: absolute;
+      opacity: 0;
+      transition: opacity .5s, visibility .5s;
+      visibility: hidden;
+      top: get-vw(-62);
+      left: get-vw(-58);
+      content: '';
+      display: inline-block;
+      width: get-vw(286);
+      height: get-vw(251);
+      // background-image: url("./../images/elements/button-bg-inactive.png");
+      background-repeat: no-repeat;
+      background-size: contain;
+      @include breakpoint(medium down) {
+        top: rem-calc(-62/2);
+        left: rem-calc(-58/2);
+        width: rem-calc(286/2);
+        height: rem-calc(251/2);
+      }
+    }
+    &:hover,
+    &:focus {
+      .after {
+        opacity: 1;
+        visibility: visible;
+      }
+      .button-back {
+        background-color: #00ffff;
+        color: #000;
+      }
+    }
+  }
+  &__info {
+    margin-top: get-vw(60);
+    margin-bottom: rem-calc(32);
+    color: #fff;
+    font-size: get-vw(18);
+    text-align: center;
+    a{
+      color: #ff00ff;
+      font-weight: bold;
+      &:hover,
+      &:focus{
+        color: #ff00ff;
+      }
+    }
+    @include breakpoint(medium down) {
+      font-size: rem-calc(18/1.5);
+      margin-top: rem-calc(60/2);
+    }
+  }
+  @include breakpoint(medium down) {
+    padding-top: rem-calc(70);
+    padding-bottom: rem-calc(50/1.5);
+  }
+}

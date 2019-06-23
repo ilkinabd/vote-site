@@ -1,0 +1,29 @@
+.parallax {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  // background-image: url("./../images/bg-geometric.png");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  @include breakpoint(xxlarge) {
+    background-size: 100%;
+  }
+  @include breakpoint(medium only) {
+    background-image: none;
+  }
+  @include breakpoint(small only) {
+    background-image: none;
+    display: none;
+  }
+  &-container{
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+}

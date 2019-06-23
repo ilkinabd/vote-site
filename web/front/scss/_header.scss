@@ -1,0 +1,6 @@
+.header{
+  position: relative;
+  @include flex;
+  @include flex-direction(column);
+  @include flex-align(null,middle)
+}

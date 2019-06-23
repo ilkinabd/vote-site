@@ -1,0 +1,63 @@
+// Default variables.
+@import 'default-variables';
+// Foundation Framework.
+@import './../bower_components/foundation-sites/scss/foundation';
+
+@include foundation-global-styles;
+@include foundation-typography;
+@include foundation-menu;
+@include foundation-forms;
+@include foundation-reveal;
+@import "mixins";
+body {
+  position: relative;
+  // background-image: url("./../images/bg1.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  @include breakpoint(small only) {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-image: none;
+  }
+}
+
+.bgcover {
+  @include breakpoint(small only) {
+    top: 0;
+    position: fixed;
+    background-image: url("./../images/bg.png");
+    width: 100%;
+    height: 100%;
+    background-size: 100% 100%;
+  }
+}
+
+#loader {
+  background-color: #2d353c;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  visibility: visible;
+  opacity: 1;
+  transition: visibility .3s, opacity .3s;
+  @include flex();
+  @include flex-align(center, middle);
+
+  img {
+    width: rem-calc(100);
+    height: rem-calc(100);
+  }
+}
+
+@import "parallax";
+@import "button";
+@import "header";
+@import "partner";
+@import "title";
+@import "authorize";
+@import "user";
+@import "social";
+@import "singer";
+@import "footer";
