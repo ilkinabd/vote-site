@@ -18,6 +18,12 @@ use Twig\Environment;
 class FrontendControllerProvider implements ControllerProviderInterface
 {
 
+    public static $POLL_STOPPED = 0;
+
+    public static $POLL_STARTED = 1;
+
+    public static $POLL_WINNER_SELECTED = 2;
+
     /**
      * Returns routes to connect to the given application.
      *
@@ -52,8 +58,10 @@ class FrontendControllerProvider implements ControllerProviderInterface
             $partners = [];
             $vote_total = 0;
             $poll_status = $db->fetchColumn('SELECT status FROM poll WHERE id = 1', [], 0);
-            if ($poll_status == 0) {
+            if ($poll_status == self::$POLL_STOPPED) {
                 return $app->redirect('/result');
+            } elseif ($poll_status == self::$POLL_WINNER_SELECTED) {
+                return $app->redirect('/finish');
             } else {
                 $singer_result = $db->executeQuery('select * from `option`');
                 $vote_result = $db->executeQuery('select * from vote');
@@ -128,6 +136,9 @@ class FrontendControllerProvider implements ControllerProviderInterface
 
         // Result page
         $controllers->get('/result', function () use ($app) {
+
+            $partners = [];
+
             /** @var Environment $twig */
             $twig = $app['twig'];
 
@@ -148,9 +159,13 @@ class FrontendControllerProvider implements ControllerProviderInterface
             if ($poll_status == 1) {
                 return $app->redirect('/');
             } else {
-                $singer_result = $db->executeQuery('select * from `option`');
+                $winner_id = $db->fetchColumn('select winner from poll where id = 1',[],0);
+                $singer_result = $db->executeQuery('select * from `option` where id = ?',[
+                    $winner_id
+                ]);
                 $vote_result = $db->executeQuery('select * from vote');
                 $config_result = $db->executeQuery('select * from backend_config');
+                $partner_result = $db->executeQuery('select * from partners');
 
                 while ($row = $config_result->fetch()) {
                     if (!empty($row['mime_type'])) {
@@ -174,18 +189,77 @@ class FrontendControllerProvider implements ControllerProviderInterface
                         $singer['vote_count'] = 0;
                     }
                     $singer['img'] = 'data:' . $singer['mime_type'] . ';base64, ' . base64_encode($singer['img']);
+
                     if ($winner == null || $winner['vote_count'] < $singer['vote_count']) {
                         $winner = $singer;
                     }
                 }
 
+                while ($row = $partner_result->fetch()) {
+                    if (!empty($row['mime_type'])) {
+                        $row['img'] = 'data:' . $row['mime_type'] . ';base64, ' . base64_encode($row['img']);
+                    }
+                    $partners[] = $row;
+                }
+
                 return $twig->render('front/result.twig', array(
                     'config' => $config,
+                    'partners' => $partners,
                     'singers' => [$winner],
                     'user' => ($session->has('user')) ? $session->get('user') : false
                 ));
             }
         })->bind('result');
+
+        // Finish page
+        $controllers->get('/finish', function () use ($app) {
+
+            $partners = [];
+
+            /** @var Environment $twig */
+            $twig = $app['twig'];
+
+            /** @var Connection $db */
+            $db = $app['db'];
+
+            /** @var SessionInterface $session */
+            $session = $app['session'];
+
+            $config = [
+                'media' => []
+            ];
+
+            $poll_status = $db->fetchColumn('SELECT status FROM poll WHERE id = 1', [], 0);
+            if ($poll_status == self::$POLL_STARTED) {
+                return $app->redirect('/');
+            } elseif ($poll_status == self::$POLL_STOPPED) {
+                return $app->redirect('/result');
+            } else {
+                $config_result = $db->executeQuery('select * from backend_config');
+                $partner_result = $db->executeQuery('select * from partners');
+
+
+                while ($row = $config_result->fetch()) {
+                    if (!empty($row['mime_type'])) {
+                        $row['value'] = 'data:' . $row['mime_type'] . ';base64, ' . base64_encode($row['value']);
+                    }
+                    $config[$row['type']][$row['name']] = $row['value'];
+                }
+
+                while ($row = $partner_result->fetch()) {
+                    if (!empty($row['mime_type'])) {
+                        $row['img'] = 'data:' . $row['mime_type'] . ';base64, ' . base64_encode($row['img']);
+                    }
+                    $partners[] = $row;
+                }
+
+                return $twig->render('front/finish.twig', array(
+                    'config' => $config,
+                    'partners' => $partners,
+                    'user' => ($session->has('user')) ? $session->get('user') : false
+                ));
+            }
+        })->bind('finish');
 
         // Get poll status
         $controllers->get('/poll/status', function () use ($app) {

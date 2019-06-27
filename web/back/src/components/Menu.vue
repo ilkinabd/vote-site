@@ -15,10 +15,23 @@
             </div>
             <div class="top-bar-right">
                 <ul class="menu">
-                    <li v-if="pollStatus !== null">
-                        <a @click.prevent="updatePollStatus()"
-                           :class="['button',{'button-start':pollStatus === 0,'alert': pollStatus === 1}]">
-                            {{pollStatus === 1 ? pollStopText : pollStartText}}
+                    <li v-if="pollStatus === POLL_STARTED">
+                        <a class="button alert" @click.prevent="openWinnerModal()">
+                            {{pollWinnerText}}
+                        </a>
+                    </li>
+                    <li v-else-if="pollStatus === POLL_WINNER_SELECTED" class="flex-container">
+                        <a class="button alert" @click.prevent="openWinnerModal()">
+                            {{pollWinnerText}}
+                        </a>
+                        <a class="button alert" style="margin-left: 16px"
+                           @click.prevent="updatePollStatus(POLL_STOPPED)">
+                            {{pollStopText}}
+                        </a>
+                    </li>
+                    <li v-else-if="pollStatus === POLL_STOPPED">
+                        <a @click.prevent="updatePollStatus(POLL_STARTED)" class="button button-start">
+                            {{pollStartText}}
                         </a>
                     </li>
                     <li style="margin-left: 16px">
@@ -26,6 +39,27 @@
                     </li>
                 </ul>
             </div>
+        </div>
+        <div class="reveal modal" id="modal-winner-select" data-close-on-click="false">
+            <form action="" data-abide novalidate>
+                <p class="modal__title">Выбрать победителя</p>
+                <div class="grid-x grid-padding-x">
+                    <div class="cell">
+                        <p>
+                            <select v-model="winnerId">
+                                <option v-for="(singer,key,index) in singers" :value="singer.id">
+                                    {{singer.name}} {{ singer.surname }}</option>
+                            </select>
+                        </p>
+                    </div>
+                    <div class="cell large-6">
+                        <button class="button expanded button-save" @click.prevent="selectWinner()">Подтвердить</button>
+                    </div>
+                    <div class="cell large-6">
+                        <button type="button" data-close class="button expanded button-exit">Закрыть</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </template>
@@ -39,11 +73,16 @@
         props: ['userName', 'userSurname', 'userRoles', 'logoutPath', 'currentPage'],
         data() {
             return {
+                POLL_STARTED:1,
+                POLL_STOPPED:0,
+                POLL_WINNER_SELECTED:2,
                 title: 'Login page',
                 responsiveToggle: null,
                 pollStatus: null,
                 pollStartText: 'Старт голосования',
+                pollWinnerText: 'Выбрать победителя',
                 pollStopText: 'Стоп голосование',
+                winnerId:null,
                 roleMenu: {
                     'ROLE_ADMIN': [
                         {
@@ -78,6 +117,8 @@
                         }
                     ]
                 },
+                singers:[],
+                modal:null,
                 menuItems: []
             }
         },
@@ -86,22 +127,47 @@
                 this.menuItems = this.roleMenu[this.userRoles[0]];
             }
             this.responsiveToggle = new Foundation.ResponsiveToggle($('#responsive-toggle'), {});
+            let modal = this.$el.querySelector('#modal-winner-select');
+            new Foundation.Reveal($(modal), {});
+            this.modal = $(modal);
             this.getPollStatus();
+            this.getSinger();
         },
         methods: {
-            updatePollStatus() {
-                if (this.pollStatus !== null) {
+            updatePollStatus(statusCode){
+                let fd = new FormData;
+                fd.append('poll_status', statusCode);
+                $.ajax({
+                    url: '/ajax/poll/update',
+                    data: fd,
+                    processData: false,
+                    contentType: false,
+                    type: 'POST',
+                    success: (data) => {
+                        this.getPollStatus();
+                    }
+                });
+            },
+            openWinnerModal() {
+                // Open modal form
+                this.modal.foundation('open');
+            },
+            selectWinner(){
+                if(!this.winnerId){
+                    alert('Победитель не выбран');
+                    return false;
+                }else{
                     let fd = new FormData;
-                    let pollStatus = this.pollStatus === 0 ? '1' : '0';
-                    fd.append('poll_status', pollStatus);
+                    fd.append('winner_id', this.winnerId);
                     $.ajax({
-                        url: '/ajax/poll/update',
+                        url: '/ajax/poll/winner',
                         data: fd,
                         processData: false,
                         contentType: false,
                         type: 'POST',
                         success: (data) => {
-                            this.getPollStatus();
+                            this.updatePollStatus(this.POLL_WINNER_SELECTED);
+                            this.modal.foundation('close');
                         }
                     });
                 }
@@ -114,6 +180,17 @@
                     type: 'GET',
                     success: (data) => {
                         this.pollStatus = data.status
+                    }
+                });
+            },
+            getSinger () {
+                $.ajax({
+                    url: '/ajax/singer',
+                    processData: false,
+                    contentType: false,
+                    type: 'GET',
+                    success: (data) => {
+                        this.singers = data
                     }
                 });
             }

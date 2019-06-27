@@ -10,10 +10,10 @@
     <script>
         let style = document.createElement('style');
         style.innerHTML =
-            'body{'+
-                'background-image: url("{{ config.body.bodyBgBackImg }}");'+
-                'background-size: cover'+
-            '}'+
+            'body{' +
+            'background-image: url("{{ config.body.bodyBgBackImg }}");' +
+            'background-size: cover' +
+            '}' +
             '.button-vote {' +
             'background-color: {{ config.singer.buttonBgColorInactive }};' +
             '}' +
@@ -60,32 +60,7 @@
 <div class="result">
     <h1 style="text-align: center;color: #fff">Голосование окончено</h1>
 </div>
-<div class="singer">
-    {% for singer in singers %}
 
-        <div class="singer__item">
-            <div class="singer__pic">
-                <span style="background-image: url('{{ config.singer.portraitBgImg }}')" class="before"></span>
-                <p style="border-color: {{ config.singer.portraitBorderColor }}" class="singer__circle">
-                    <img src="{{ singer.img }}" alt="">
-                </p>
-                <span style="background-image: url('{{ config.singer.portraitElementImg }}')" class="after"></span>
-            </div>
-            <div class="singer__info">
-                <p class="singer__city">{{ singer.city }}</p>
-                <p class="singer__name">{{ singer.name }} {{ singer.surname }}</p>
-                <p class="singer__age">{{ singer.age }} лет</p>
-                <div class="singer__music">
-                    <a href="" data-music="{{ app.music_path }}/{{ singer.music_link }}" class="singer__play"></a>
-                    <span class="singer__song">{{ singer.music_name }}</span>
-                </div>
-            </div>
-            <div class="singer__action">
-                <p class="singer__count">{{ singer.vote_count }} %</p>
-            </div>
-        </div>
-    {% endfor %}
-</div>
 <div class="footer">
     <p class="footer__back">
         <span style="background-image: url('{{ config.footer.backToSiteBtnBgInactiveImg }}')" class="before"></span>
@@ -99,7 +74,6 @@
 <script src="{{ app.asset_path }}/js/foundation/jquery.min.js"></script>
 <script src="{{ app.asset_path }}/js/foundation/what-input.min.js"></script>
 <script src="{{ app.asset_path }}/js/foundation/foundation.min.js"></script>
-{#<script src="{{ app.asset_path }}/js/app.js"></script>#}
 <script>
     const POLL_STOPPED = 0;
     const POLL_STARTED = 1;
@@ -116,8 +90,8 @@
                 console.log(`Poll status is ${data.status}`);
                 if (data.status === POLL_STARTED) {
                     location.href = '/'
-                } else if(data.status === POLL_WINNER_SELECTED){
-                    location.href = '/finish'
+                } else if (data.status === POLL_STOPPED) {
+                    location.href = '/result'
                 }
             }
         });

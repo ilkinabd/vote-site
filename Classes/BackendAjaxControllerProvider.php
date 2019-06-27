@@ -563,7 +563,23 @@ class BackendAjaxControllerProvider implements ControllerProviderInterface
 
             return $app->json(['message' => 'success']);
 
-        })->bind('ajax_update_poll');
+        })->bind('ajax_poll_update');
+
+        // Admin update poll winner
+        $controllers->post('/poll/winner', function (Request $request) use ($app) {
+
+            $body = $request->request->all();
+
+            /** @var Connection $db */
+            $db = $app['db'];
+
+            $db->executeQuery('update poll set winner = ? where id = 1', [
+                $body['winner_id'],
+            ]);
+
+            return $app->json(['message' => 'success']);
+
+        })->bind('ajax_poll_winner');
 
         return $controllers;
     }

@@ -129,7 +129,8 @@
             {% endif %}
             <div style="background-color: {{ config.social.authBgColor }}" class="user">
                 <div class="user__circle"><img src="{{ user.avatar }}" alt=""></div>
-                <p class="user__name" style="color: {{ config.social.authTextColor }}">{{ user.firstName }}<br>{{ user.lastName }}</p>
+                <p class="user__name" style="color: {{ config.social.authTextColor }}">{{ user.firstName }}
+                    <br>{{ user.lastName }}</p>
                 <div class="user__social"><img
                             src="{{ socialIcon }}"
                             alt=""></div>
@@ -180,8 +181,10 @@
                           class="before"></span>
                     <a data-vote data-singer-id="{{ singer.id }}" class="button button-vote">
                         <span class="singer__check">
-                            <span class="before" style="background-image: url('{{ config.singer.buttonIconInactiveImg  }}')"></span>
-                            <span class="after" style="background-image: url('{{ config.singer.buttonIconActiveImg }}');"></span>
+                            <span class="before"
+                                  style="background-image: url('{{ config.singer.buttonIconInactiveImg }}')"></span>
+                            <span class="after"
+                                  style="background-image: url('{{ config.singer.buttonIconActiveImg }}');"></span>
                         </span>
                         {% if user != false and user.singerId == singer.id %}
                             <span style="color: {{ config.singer.buttonTextColorActive }}">{{ config.singer.buttonTextActive }}</span>
@@ -216,6 +219,10 @@
 <script src="{{ app.asset_path }}/js/foundation/foundation.min.js"></script>
 <script src="{{ app.asset_path }}/js/app.js"></script>
 <script>
+    const POLL_STOPPED = 0;
+    const POLL_STARTED = 1;
+    const POLL_WINNER_SELECTED = 2;
+
     $(document).foundation();
     let timerId = setInterval(function () {
         $.ajax({
@@ -225,8 +232,10 @@
             type: 'GET',
             success: (data) => {
                 console.log(`Poll status is ${data.status}`);
-                if (data.status === 0) {
+                if (data.status === POLL_STOPPED) {
                     location.href = '/result'
+                } else if (data.status === POLL_WINNER_SELECTED) {
+                    location.href = '/finish'
                 }
             }
         });
