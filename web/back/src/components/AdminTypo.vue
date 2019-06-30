@@ -719,7 +719,7 @@
                                 <p>
                                     <label for="btn-return-site-active" class="button expanded">Загрузить</label>
                                     <input id="btn-return-site-active" type="file" class="show-for-sr"
-                                           @change.prevent="footer.backToSiteBtnBgActiveImg = $event.target.files[0]">
+                                           @change.prevent="readImg($event.target.files[0],footer,'backToSiteBtnBgActiveImg','backToSiteBtnBgActiveImg64')">
                                 </p>
                             </div>
                         </div>
@@ -741,7 +741,8 @@
                                 <p>
                                     <label for="btn-return-bg-inactive" class="button expanded">Загрузить</label>
                                     <input id="btn-return-bg-inactive" type="file" class="show-for-sr"
-                                           @change.prevent="footer.backToSiteBtnBgInactiveImg = $event.target.files[0]">
+                                           @change.prevent="readImg($event.target.files[0],footer,'backToSiteBtnBgInactiveImg','backToSiteBtnBgInactiveImg64')">
+
                                 </p>
                             </div>
                         </div>
@@ -774,7 +775,8 @@
                                 <p>
                                     <label for="btn-site-bg-front" class="button expanded">Загрузить</label>
                                     <input id="btn-site-bg-front" type="file" class="show-for-sr"
-                                           @change.prevent="body.bodyBgFrontImg = $event.target.files[0]">
+                                           @change.prevent="readImg($event.target.files[0],body,'bodyBgFrontImg','bodyBgFrontImg64')">
+
                                 </p>
                             </div>
                         </div>
@@ -795,7 +797,8 @@
                                 <p>
                                     <label for="btn-site-bg-back" class="button expanded">Загрузить</label>
                                     <input id="btn-site-bg-back" type="file" class="show-for-sr"
-                                           @change.prevent="body.bodyBgBackImg = $event.target.files[0]">
+                                           @change.prevent="readImg($event.target.files[0],body,'bodyBgBackImg','bodyBgBackImg64')">
+
                                 </p>
                             </div>
                         </div>
@@ -827,37 +830,6 @@
                     social: {},
                     singer: {},
                     footer: {}
-                },
-                widget: {
-                    image: {
-                        title: null,
-                        code: null,
-                        columnSize: null,
-                        value: null,
-                        recommended: null,
-                        canHide: false,
-                        isHidden: false
-                    },
-                    partner: {
-                        title: null,
-                        code: null,
-                        columnSize: null,
-                        link: null,
-                        img: null,
-                        recommended: null
-                    },
-                    text: {
-                        title: null,
-                        code: null,
-                        columnSize: null,
-                        value: null
-                    },
-                    color: {
-                        title: null,
-                        code: null,
-                        columnSize: null,
-                        value: null
-                    }
                 },
                 body: {
                     name: 'body',

@@ -138,10 +138,11 @@ class BackendAjaxControllerProvider implements ControllerProviderInterface
 
             while ($row = $res->fetch()) {
 
+                $row['img64'] = null;
                 if (!empty($row['mime_type'])) {
                     $row['img64'] = 'data:' . $row['mime_type'] . ';base64, ' . base64_encode($row['img']);
-                    unset($row['img']);
                 }
+                unset($row['img']);
                 $partners[] = $row;
             }
 
