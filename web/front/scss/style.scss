@@ -1,7 +1,8 @@
 // Default variables.
 @import 'default-variables';
+
 // Foundation Framework.
-@import './../bower_components/foundation-sites/scss/foundation';
+@import './../node_modules/foundation-sites/scss/foundation';
 
 @include foundation-global-styles;
 @include foundation-typography;

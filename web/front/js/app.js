@@ -19,7 +19,7 @@
         event.stopImmediatePropagation();
         var elem = this;
         var singerId = elem.dataset.singerId;
-        var span = elem.querySelectorAll('span')[1];
+        var span = elem.querySelectorAll('a.button.button-vote > span')[1];
         var oldHtml = span.innerHTML;
         span.innerHTML = 'Подождите...';
         $.ajax({

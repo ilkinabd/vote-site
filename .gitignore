@@ -8,5 +8,6 @@ web/front/bower_components/
 web/front/node_modules/
 web/music/
 web/.htaccess
+dockerfiles/vote-db/dump
 composer.phar
 index.php

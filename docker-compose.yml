@@ -22,8 +22,8 @@ services:
   mysql:
     container_name: vote-db
     volumes:
-      - './sql:/sql'
-      #- './init.sql:/docker-entrypoint-initdb.d/init.sql'
+      - './dockerfiles/vote-db/etc/mysql:/etc/mysql'
+      - './dockerfiles/vote-db/dump/vote.sql:/docker-entrypoint-initdb.d/init.sql'
     image: mysql:5.5
     environment:
       MYSQL_ROOT_PASSWORD: ilkinabd1
