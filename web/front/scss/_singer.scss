@@ -29,6 +29,9 @@
     width: get-vw(414);
     img {
       position: relative;
+      @include breakpoint(small only){
+        position: initial;
+      }
     }
     .before {
       content: '';

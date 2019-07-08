@@ -82,7 +82,7 @@
             </form>
             <p style="text-align: center">
                 <button type="button" data-close class="button button-exit">Закрыть</button>
-                <button type="button" @click.prevent="addVotes()" class="button">Применить</button>
+                <button type="button" @click.prevent="addVotes()" class="button">Добавить голоса</button>
             </p>
         </div>
         <div id="modal-vote-subtract" class="reveal modal modal-singer" data-reveal data-close-on-click="false">
@@ -95,7 +95,7 @@
             </form>
             <p style="text-align: center">
                 <button type="button" data-close class="button button-exit">Закрыть</button>
-                <button type="button" @click.prevent="subtractVotes()" class="button">Применить</button>
+                <button type="button" @click.prevent="subtractVotes()" class="button">Удалить голоса</button>
             </p>
         </div>
     </div>
