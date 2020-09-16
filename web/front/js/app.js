@@ -68,22 +68,19 @@
 
     });
 
-    if(parallax){
+    if (parallax) {
         window.addEventListener('scroll', function (e) {
             last_known_scroll_position = window.scrollY;
-            doSomething(last_known_scroll_position);
+            if (!ticking) {
+                doSomething(last_known_scroll_position);
+                window.requestAnimationFrame(function () {
+                    doSomething(last_known_scroll_position);
+                    ticking = false;
+                });
 
-            /*
-                    if (!ticking) {
-                        doSomething(last_known_scroll_position);
-                        window.requestAnimationFrame(function () {
-                            doSomething(last_known_scroll_position);
-                            ticking = false;
-                        });
+                ticking = true;
+            }
 
-                        ticking = true;
-                    }
-           */
 
         });
     }
