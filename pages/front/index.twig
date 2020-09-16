@@ -32,9 +32,9 @@
                 {% else %}
             'body{background-color: #2d353c}' +
                 {% endif %}
-                {% if config.body.bodyBgFrontHidden != 'true' %}
-            '.parallax{background-image: url("{{ config.body.bodyBgFrontImg }}")}' +
-                {% endif %}
+{#                {% if config.body.bodyBgFrontHidden != 'true' %}#}
+{#            '.parallax{background-image: url("{{ config.body.bodyBgFrontImg }}")}' +#}
+{#                {% endif %}#}
             '.button-vote {' +
             'background-color: {{ config.singer.buttonBgColorInactive }};' +
             '}' +
@@ -81,7 +81,7 @@
 </div>
 {% if config.body.bodyBgFrontHidden != 'true' %}
     <div class="parallax-container">
-        <div class="parallax"></div>
+        <img src="{{ config.body.bodyBgFrontImg }}" alt="parallax">
     </div>
 {% endif %}
 <div class="header">
@@ -219,6 +219,7 @@
 <script src="{{ app.asset_path }}/js/foundation/jquery.min.js"></script>
 <script src="{{ app.asset_path }}/js/foundation/what-input.min.js"></script>
 <script src="{{ app.asset_path }}/js/foundation/foundation.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-parallax-js@5.5.1/dist/simpleParallax.min.js"></script>
 <script src="{{ app.asset_path }}/js/app.js"></script>
 <script>
     const POLL_STOPPED = 0;
