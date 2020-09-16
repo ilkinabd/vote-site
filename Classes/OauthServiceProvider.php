@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * Oauth: xterminate
@@ -56,7 +57,6 @@ class OauthServiceProvider implements ServiceProviderInterface, BootableProvider
                 $social = $serializer->denormalize($item, $className);
                 $social->setRedirectUri($app['oauth.config.redirect_uri']);
                 $socials[$key] = $social;
-
             };
 
             return new Oauth($socials);
@@ -108,12 +108,11 @@ class OauthServiceProvider implements ServiceProviderInterface, BootableProvider
                             'last_login' => (new DateTime('NOW'))->format('Y-m-d H:i:s')
                         ]);
                     } else {
+                        $db->executeUpdate(
+                            'UPDATE ordinary_user SET last_login = ? WHERE id = ? AND last_voted is NULL',
+                            array((new DateTime('NOW'))->format('Y-m-d H:i:s'), $id)
+                        );
                         // Update last_login
-                        $db->update('ordinary_user', [
-                            'last_login' => (new DateTime('NOW'))->format('Y-m-d H:i:s')
-                        ], [
-                            'id' => $id
-                        ]);
                     }
 
                     // Fetch user from db
@@ -134,7 +133,6 @@ class OauthServiceProvider implements ServiceProviderInterface, BootableProvider
                     }
                 }
             }
-
         });
     }
 

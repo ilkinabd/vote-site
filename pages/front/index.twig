@@ -65,7 +65,13 @@
             '}' +
             '.singer__vote.active .button-vote{' +
             'background-color:{{ config.singer.buttonBgColorActive }}' +
-            '}'
+            '}' +
+            '.singer__info>p{' +
+            'color:{{ config.singer.textColor }}' +
+            '}' +
+            '.singer__song{' +
+            'color:{{ config.singer.textColor }}' +
+            '}'+
         document.getElementsByTagName('head')[0].appendChild(style);
     </script>
 </head>

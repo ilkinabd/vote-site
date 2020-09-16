@@ -10,7 +10,7 @@
 <body>
 <div id="app">
     <div id="header">
-        {% if is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_MANAGER') %}
             <menu-top :user-name="{{ app.user.name | capitalize | json_encode | e('html_attr') }}"
                       :user-surname="{{ app.user.surname | capitalize | json_encode | e('html_attr') }}"
                       :user-roles="{{ app.user.roles | json_encode | e('html_attr')}}"

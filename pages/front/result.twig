@@ -58,7 +58,10 @@
     </div>
 </div>
 <div class="result">
-    <h1 style="text-align: center;color: #fff">Голосование окончено</h1>
+    <h1 style="text-align: center;color: #fff;font-size: 30px">
+        Представитель России на международном конкурсе <br>
+        “Детское Евровидение {{ "now"|date("Y") }}”
+    </h1>
 </div>
 <div class="singer">
     {% for singer in singers %}
@@ -76,7 +79,10 @@
                 <p class="singer__name">{{ singer.name }} {{ singer.surname }}</p>
                 <p class="singer__age">{{ singer.age }} лет</p>
                 <div class="singer__music">
-                    <a href="" data-music="{{ app.music_path }}/{{ singer.music_link }}" class="singer__play"></a>
+                    <a href="" data-music="{{ app.music_path }}/{{ singer.music_link }}" class="singer__play">
+                        <span class="before" style="background-image: url('{{ config.singer.playImg }}')"></span>
+                        <span class="after" style="background-image: url('{{ config.singer.stopImg }}')"></span>
+                    </a>
                     <span class="singer__song">{{ singer.music_name }}</span>
                 </div>
             </div>
@@ -96,7 +102,7 @@
 <script src="{{ app.asset_path }}/js/foundation/jquery.min.js"></script>
 <script src="{{ app.asset_path }}/js/foundation/what-input.min.js"></script>
 <script src="{{ app.asset_path }}/js/foundation/foundation.min.js"></script>
-{#<script src="{{ app.asset_path }}/js/app.js"></script>#}
+<script src="{{ app.asset_path }}/js/app.js"></script>
 <script>
     const POLL_STOPPED = 0;
     const POLL_STARTED = 1;

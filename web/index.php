@@ -62,6 +62,7 @@ $app->register(new SerializerServiceProvider(), [
 ]);
 
 // Oauth
+// var_dump($app['redirect_uri']);
 $app->register(new OauthServiceProvider(), [
     'oauth.config.redirect_uri' => $app['redirect_uri'],
     'oauth.config.socials' => $app['config']['socials']
