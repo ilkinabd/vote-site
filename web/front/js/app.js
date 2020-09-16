@@ -1,17 +1,7 @@
 (function ($) {
     'use strict';
-    // Variables
-    var last_known_scroll_position = 0;
-    var ticking = false;
-    var parallax = document.querySelector('.parallax');
 
     var audioContainer = document.createElement("AUDIO");
-
-    // Functions
-    function doSomething(last_known_scroll_position) {
-        //console.log(last_known_scroll_position);
-        parallax.style.transform = 'translateY(' + ((last_known_scroll_position / 2)) + 'px)';
-    }
 
     // Event handlers
     $('.singer__vote:not(.active):not(.inactive)').on('click', '[data-vote]', function () {
@@ -67,9 +57,4 @@
         }
 
     });
-
-    if (parallax) {
-        let image = document.getElementsByClassName('parallax');
-        new window.simpleParallax(image);
-    }
 }(jQuery));

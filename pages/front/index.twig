@@ -226,7 +226,11 @@
     const POLL_STARTED = 1;
     const POLL_WINNER_SELECTED = 2;
 
-    $(document).foundation();
+    var parallax = document.querySelector('.parallax');
+    if (parallax) {
+        let image = document.getElementsByClassName('parallax');
+        new window.simpleParallax(image);
+    }
     let timerId = setInterval(function () {
         $.ajax({
             url: '/poll/status',
