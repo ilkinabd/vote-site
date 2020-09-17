@@ -221,11 +221,10 @@ class User
      */
     public function vote($db, $singer_id)
     {
-        $preVote = $db->fetchColumn('select vote_count from vote where poll_option_id = ?;',
-            array($singer_id), 0);
-        $preVote = intval($preVote);
+        $res = $db->executeQuery('select vote_count from vote where poll_option_id = ?;',
+            array($singer_id));
 
-        if ($preVote > 0) {
+        if ($res->fetch()) {
             $db->executeQuery('update vote set vote_count = vote_count + 1 where poll_option_id = ?',
                 array($singer_id));
         } else {
