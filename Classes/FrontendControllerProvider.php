@@ -64,7 +64,7 @@ class FrontendControllerProvider implements ControllerProviderInterface
                 return $app->redirect('/finish');
             } else {
                 $singer_result = $db->executeQuery('select * from `option`');
-                $vote_result = $db->executeQuery('select count(vote_count) as vote_count, poll_option_id from vote group by poll_option_id;');
+                $vote_result = $db->executeQuery('select vote_count, poll_option_id from vote group by poll_option_id;');
                 $config_result = $db->executeQuery('select * from backend_config');
                 $partner_result = $db->executeQuery('select * from partners');
 
