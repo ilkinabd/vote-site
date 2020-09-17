@@ -9,8 +9,7 @@
 
     // Functions
     function doSomething(last_known_scroll_position) {
-        //console.log(last_known_scroll_position);
-        parallax.style.transform = 'translateY(' + ((last_known_scroll_position / 2)) + 'px)';
+        parallax.style.transform = 'translateY(' + ((last_known_scroll_position / 4)) + 'px)';
     }
 
     // Event handlers
@@ -72,13 +71,12 @@
         window.addEventListener('scroll', function (e) {
             last_known_scroll_position = window.scrollY;
             if (!ticking) {
+                ticking = true;
                 doSomething(last_known_scroll_position);
                 window.requestAnimationFrame(function () {
                     doSomething(last_known_scroll_position);
                     ticking = false;
                 });
-
-                ticking = true;
             }
         });
     }
