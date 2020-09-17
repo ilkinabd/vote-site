@@ -414,7 +414,7 @@ class BackendAjaxControllerProvider implements ControllerProviderInterface
             $db = $app['db'];
 
             $qb = $db->createQueryBuilder();
-            $res = $qb->select('s.id', 's.name', 's.surname', 's.music_name', 'count(v.vote_count) as vote_count')
+            $res = $qb->select('s.id', 's.name', 's.surname', 's.music_name', 'v.vote_count')
                 ->from('`option`', 's')
                 ->leftJoin('s', 'vote', 'v', 's.id = v.poll_option_id')
                 ->execute();
