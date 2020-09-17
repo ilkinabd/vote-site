@@ -32,9 +32,9 @@
                 {% else %}
             'body{background-color: #2d353c}' +
                 {% endif %}
-{#                {% if config.body.bodyBgFrontHidden != 'true' %}#}
-{#            '.parallax{background-image: url("{{ config.body.bodyBgFrontImg }}")}' +#}
-{#                {% endif %}#}
+                {% if config.body.bodyBgFrontHidden != 'true' %}
+            '.parallax{background-image: url("{{ config.body.bodyBgFrontImg }}")}' +
+                {% endif %}
             '.button-vote {' +
             'background-color: {{ config.singer.buttonBgColorInactive }};' +
             '}' +
@@ -80,9 +80,9 @@
     <img src="{{ app.asset_path }}/images/loading.gif" alt="">
 </div>
 {% if config.body.bodyBgFrontHidden != 'true' %}
-{#    <div class="parallax-container">#}
-{#        <img class="parallax" src="{{ config.body.bodyBgFrontImg }}" alt="parallax">#}
-{#    </div>#}
+    <div class="parallax-container">
+        <img class="parallax" src="{{ config.body.bodyBgFrontImg }}" alt="parallax">
+    </div>
 {% endif %}
 <div class="header">
     <div class="partner">

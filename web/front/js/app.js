@@ -2,6 +2,9 @@
     'use strict';
 
     var audioContainer = document.createElement("AUDIO");
+    var last_known_scroll_position = 0;
+    var ticking = false;
+    var parallax = document.querySelector('.parallax');
 
     // Event handlers
     $('.singer__vote:not(.active):not(.inactive)').on('click', '[data-vote]', function () {
@@ -57,4 +60,19 @@
         }
 
     });
+
+    if (parallax) {
+        window.addEventListener('scroll', function (e) {
+            last_known_scroll_position = window.scrollY;
+            if (!ticking) {
+                doSomething(last_known_scroll_position);
+                window.requestAnimationFrame(function () {
+                    doSomething(last_known_scroll_position);
+                    ticking = false;
+                });
+
+                ticking = true;
+            }
+        });
+    }
 }(jQuery));
