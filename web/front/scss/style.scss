@@ -11,16 +11,8 @@
 @include foundation-reveal;
 @import "mixins";
 body {
-  position: relative;
-  // background-image: url("./../images/bg1.jpg");
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  @include breakpoint(small only) {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    background-size: cover;
-  }
+  background-repeat: repeat-y;
+  background-size: contain;
 }
 #loader {
   background-color: #2d353c;
