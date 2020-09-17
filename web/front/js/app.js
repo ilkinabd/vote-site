@@ -9,7 +9,7 @@
 
     // Functions
     function doSomething(last_known_scroll_position) {
-        parallax.style.transform = 'translateY(' + ((last_known_scroll_position / 10)) + 'px)';
+        parallax.style.transform = 'translateY(' + ((last_known_scroll_position / 6)) + 'px)';
     }
 
     // Event handlers
