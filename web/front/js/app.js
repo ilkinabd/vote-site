@@ -6,6 +6,13 @@
     var ticking = false;
     var parallax = document.querySelector('.parallax');
 
+
+    // Functions
+    function doSomething(last_known_scroll_position) {
+        //console.log(last_known_scroll_position);
+        parallax.style.transform = 'translateY(' + ((last_known_scroll_position / 2)) + 'px)';
+    }
+
     // Event handlers
     $('.singer__vote:not(.active):not(.inactive)').on('click', '[data-vote]', function () {
         event.preventDefault();
