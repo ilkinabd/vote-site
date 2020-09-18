@@ -62,7 +62,7 @@ class VKSocial extends Social
                 'uids' => $token['user_id'],
                 'fields' => 'uid,first_name,last_name,screen_name,sex,bdate,photo_100',
                 'access_token' => $token['access_token'],
-                'v' => '5.0'
+                'v' => '5.21'
             );
 
             $res = json_decode(file_get_contents('https://api.vk.com/method/users.get' . '?' .
@@ -80,7 +80,6 @@ class VKSocial extends Social
                 ];
             }
         }
-
         return $userInfo;
     }
 
