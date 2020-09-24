@@ -57,7 +57,9 @@ class FrontendControllerProvider implements ControllerProviderInterface
             ];
             $partners = [];
             $vote_total = 0;
-            $poll_status = $db->fetchColumn('SELECT status FROM poll WHERE id = 1', [], 0);
+            $res = $db->executeQuery('SELECT status FROM poll WHERE id = 1');
+            $row = $res->fetch();
+            $poll_status = $row['poll_status'];
             if ($poll_status == self::$POLL_STOPPED) {
                 return $app->redirect('/result');
             } elseif ($poll_status == self::$POLL_WINNER_SELECTED) {
